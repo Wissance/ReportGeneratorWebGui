@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace ReportGenerator.Web.Models
+namespace ReportGeneratorWeb.Models
 {
     /// <summary>
     ///    General setting for searching, all Dirs are on a server machine:

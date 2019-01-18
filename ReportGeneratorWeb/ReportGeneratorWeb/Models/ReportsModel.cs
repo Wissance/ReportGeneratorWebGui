@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace ReportGenerator.Web.Models
+namespace ReportGeneratorWeb.Models
 {
     public class ReportsModel
     {

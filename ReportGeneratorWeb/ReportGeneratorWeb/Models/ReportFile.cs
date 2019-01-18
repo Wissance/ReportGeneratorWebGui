@@ -1,5 +1,5 @@
 
-namespace ReportGenerator.Web.Models
+namespace ReportGeneratorWeb.Models
 {
     public class ReportFile
     {

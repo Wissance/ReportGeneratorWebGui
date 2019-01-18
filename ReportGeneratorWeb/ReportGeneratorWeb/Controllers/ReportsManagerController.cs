@@ -5,15 +5,16 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ReportGenerator.Web.Models;
+using ReportGeneratorWeb.Models;
 using Microsoft.AspNetCore.Hosting;
-using ReportGenerator;
 using ReportGenerator.Core.Config;
 using ReportGenerator.Core.Data.Parameters;
+using ReportGenerator.Core.Database;
 using ReportGenerator.Core.Helpers;
 using ReportGenerator.Core.ReportsGenerator;
 
-namespace ReportGenerator.Web.Controllers
+
+namespace ReportGeneratorWeb.Controllers
 {
     /// <summary>
     ///     Reports manager controller:
@@ -62,13 +63,13 @@ namespace ReportGenerator.Web.Controllers
                                                         [FromQuery] int? userId)
         {
             ReportsAutoDiscoveryConfigModel pathSearchConfig = GetAutoDiscoveryConfig();
-            IReportGeneratorManager manager = new ExcelReportGeneratorManager("");//Startup.ConnectionString);
+            IReportGeneratorManager manager = new ExcelReportGeneratorManager(null, DbEngine.SqlServer, "");
             string reportFile = GetExcelFilePath("Report", Guid.NewGuid());
             ExecutionConfig config = ExecutionConfigManager.Read(Path.Combine(pathSearchConfig.ParametersFilesDirectory, parametersFile));
             if (userId.HasValue)
             {
                 if (config.DataSource == ReportDataSource.StoredProcedure)
-                    config.StoredProcedureParameters.Add(new StoredProcedureParameter(SqlDbType.Int, "UserId", userId.Value));
+                    config.StoredProcedureParameters.Add(new StoredProcedureParameter(1, "UserId", userId.Value));
                 else
                     config.ViewParameters.WhereParameters.Add(new DbQueryParameter(new[] { JoinCondition.And }, "UserId", "=", userId.Value.ToString()));
             }
@@ -138,10 +139,11 @@ namespace ReportGenerator.Web.Controllers
 
         private ReportParametersInfoModel Create(FileInfo file)
         {
-            ExecutionConfig config = ExecutionConfigManager.Read(file.FullName);
-            string[] fileContent = System.IO.File.ReadAllLines(file.FullName);
-            ReportParametersInfoModel parametersInfo = new ReportParametersInfoModel(file.Name, "", "",/*config.DisplayName, config.Description,*/ fileContent);
-            return parametersInfo;
+            /*ExecutionConfig config = ExecutionConfigManager.Read(file.FullName);
+            string[] fileContent = System.IO.File.ReadAllLines(file.FullName);*/
+            //ReportParametersInfoModel parametersInfo = new ReportParametersInfoModel(file.Name, "", "",/*config.DisplayName, config.Description,*/ fileContent);
+            //return parametersInfo;
+            return null;
         }
 
         private const string ParametersSubDirectory = "files";

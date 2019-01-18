@@ -1,6 +1,6 @@
 using System;
 
-namespace ReportGenerator.Web.Models
+namespace ReportGeneratorWeb.Models
 {
     public class ReportParametersInfoModel
     {

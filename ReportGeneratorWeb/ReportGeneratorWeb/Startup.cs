@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ReportGenerator.Web
+namespace ReportGeneratorWeb
 {
     public class Startup
     {
