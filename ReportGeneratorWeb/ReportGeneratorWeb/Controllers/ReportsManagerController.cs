@@ -4,12 +4,12 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DbTools.Core;
 using Microsoft.AspNetCore.Mvc;
 using ReportGeneratorWeb.Models;
 using Microsoft.AspNetCore.Hosting;
 using ReportGenerator.Core.Config;
 using ReportGenerator.Core.Data.Parameters;
-using ReportGenerator.Core.Database;
 using ReportGenerator.Core.Helpers;
 using ReportGenerator.Core.ReportsGenerator;
 
