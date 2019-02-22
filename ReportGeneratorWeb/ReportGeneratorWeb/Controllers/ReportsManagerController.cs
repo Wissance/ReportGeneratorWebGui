@@ -99,7 +99,7 @@ namespace ReportGeneratorWeb.Controllers
 
         private string GetExcelFilePath(string prefixName, Guid fileId)
         {
-            return Path.Combine(/*_fileStoreService.GetTempFileStorePath()*/ ".", string.Format("{0}_{1}.xlsx", prefixName, fileId));
+            return Path.Combine(/*_fileStoreService.GetTempFileStorePath()*/ ".", $"{prefixName}_{fileId}.xlsx");
         }
 
         private ReportsModel CreateModel()
