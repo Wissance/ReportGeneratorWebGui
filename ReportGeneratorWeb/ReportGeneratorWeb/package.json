@@ -3,12 +3,12 @@
     "name": "asp.net",
     "private": true,
     "devDependencies": {
+        "bootstrap": "^4.3.1",
         "gulp": "3.9.1",
         "gulp-concat": "2.6.1",
         "gulp-cssmin": "0.2.0",
         "gulp-uglify": "3.0.0",
-        "rimraf": "2.6.2",
         "jquery": "3.3.1",
-        "bootstrap": "4.3.1"
+        "rimraf": "2.6.2"
     }
 }
