@@ -1,13 +1,20 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Hosting
+@inject Microsoft.AspNetCore.Hosting.IHostingEnvironment HostingEnv
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <!-- Make conditional import -->
     <title>@ViewBag.Title</title>
+    @if (HostingEnv.IsDevelopment())
+    {
+        <link rel="stylesheet" href="node_modules\bootstrap\dist\css\bootstrap.css">
+        <script type="text/javascript" src="node_modules\jquery\dist\jquery.js"></script>
+    }
 </head>
-<body>
-    <div>
-        @RenderBody()
-    </div>
-</body>
+    <body>
+        <div>
+            @RenderBody()
+        </div>
+    </body>
 </html>
