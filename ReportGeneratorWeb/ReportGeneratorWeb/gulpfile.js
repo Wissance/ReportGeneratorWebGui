@@ -14,7 +14,9 @@ var paths = {
 
 var nodeCss = [
     // bootstrap
-    paths.nodeModules + "/bootstrap/dist/css/bootstrap.css"
+    paths.nodeModules + "/bootstrap/dist/css/bootstrap.css",
+    paths.nodeModules + "font-awesome-5-css/css/all.css",
+    paths.webroot +  "css/reports_manager.css"
 ];
 
 var nodeJs = [

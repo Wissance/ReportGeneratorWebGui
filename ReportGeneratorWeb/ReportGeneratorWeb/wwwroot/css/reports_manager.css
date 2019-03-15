@@ -3,6 +3,8 @@
 }
 div.main-row-column {
     height: 100%;
+    background-color: #F2F2F2;
+    border: solid 1px;
 }
 div.file-list-container {
     width: 100%;

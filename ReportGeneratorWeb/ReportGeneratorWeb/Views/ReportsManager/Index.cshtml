@@ -25,10 +25,10 @@
                             };
                         }).ToArray();
                         @Html.ListBox("parameteresFileName", paramsListItems, new { id = "reports-params-files-list", @class = "form-control files-list" })
-                        <button class="btn btn-default pull-right files-download-btn" id="get-report-param-file-btn" disabled>
-                            <!--<span style="margin-right: 5px;" class="glyphicon glyphicon-download"></span> -->
-                            Скачать
-                        </button>
+                    <button class="btn btn-default pull-right files-download-btn" id="get-report-param-file-btn" disabled>
+                        Скачать
+                        <i class="far fa-arrow-alt-circle-down"></i>
+                    </button>
                     }
                 }
                 </div>
@@ -49,8 +49,8 @@
                             }).ToArray();
                             @Html.ListBox("templateFileName", templatesListItems, new { id = "reports-templates-files-list", @class = "form-control files-list" })
                             <button class="btn btn-default pull-right files-download-btn" id="get-report-template-file-btn" disabled="">
-                                <!--<span style="margin-right: 5px;" class="glyphicon glyphicon-download"></span>-->
                                 Скачать
+                                <i class="far fa-arrow-alt-circle-down"></i>
                             </button>
                         }
                     }
