@@ -11,7 +11,8 @@
     <div class="row main-row">
         <div class="col-md-4 main-row-column">
             <div class="row files-list-row">
-                <h5> <b>Список файлов параметров: </b></h5>
+                <h6> <b>Список файлов параметров: </b></h6> <br/>
+                <div>
                 @{
                     using (Html.BeginForm("GetParamsFile", "ReportsManager", FormMethod.Get))
                     {
@@ -30,9 +31,11 @@
                         </button>
                     }
                 }
+                </div>
             </div>
             <div class="row files-list-row">
-                <h5> <b>Список файлов шаблонов: </b></h5>
+                <h6> <b>Список файлов шаблонов: </b></h6>
+                <div>
                 @{
                     using (Html.BeginForm("GetTemplateFile", "ReportsManager", FormMethod.Get))
                     {
@@ -51,10 +54,10 @@
                         </button>
                     }
                 }
-            </div>
+                </div>
         </div>
         <div class="col-md-8 main-row-column">
-            <h5> Файл параметров: <b id="param-file-name-title"></b></h5>
+            <h6> Файл параметров: <b id="param-file-name-title"></b></h6>
             <p><b> Имя для отображения: </b>
             </p>
             @Html.TextArea("ParamsDisplayName", "", new {id = "param-file-display-name", @class = "form-control param-file-block param-file-displayname", style="height: 10%"})
@@ -69,7 +72,7 @@
         </div>
     </div>
     <div class="row report-gen-row">
-        <h5>Генерация отчетов для выбранных файла параметра <b id="selected-4gen-param-file"></b> и шаблона <b id="selected-4gen-template-file"></b> :</h5>
+        <h6>Генерация отчетов для выбранных файла параметра <b id="selected-4gen-param-file"></b> и шаблона <b id="selected-4gen-template-file"></b> :</h6>
         @{
             using (Html.BeginForm("GenerateReport", "ReportsManager", FormMethod.Get, new {@class="form-inline"}))
             {
@@ -92,11 +95,6 @@
                 <div class="form-group">
                     @Html.Label("column", "№ столбца:", new { @class = "", id = "column-form-label" })
                     @Html.TextBox("column", 1, new {@class = "form-control short-form-item", style = "width: 80px;", id ="column-form-item"})
-                </div>
-                // userId
-                <div class="form-group">
-                    @Html.Label("userId", "Ид. пользователя:", new { @class = "", id = "user-id-form-label" })
-                    @Html.TextBox("userId", null, new {@class = "form-control short-form-item", style = "width: 80px;", id ="user-id-form-item"})
                 </div>
                 // submit
                 <button id="generate-form-submit-btn" type="submit" class="btn btn-default" disabled>Сгенерировать</button>

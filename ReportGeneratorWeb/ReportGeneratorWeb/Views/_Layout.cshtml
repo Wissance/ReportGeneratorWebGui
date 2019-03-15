@@ -8,8 +8,18 @@
     <title>@ViewBag.Title</title>
     @if (HostingEnv.IsDevelopment())
     {
+        <!-- Library stylesheets -->
         <link rel="stylesheet" href="node_modules\bootstrap\dist\css\bootstrap.css">
+        <!-- Application styleshees -->
+        <link rel="stylesheet" href="css\reports_manager.css">
+        <!-- Library scripts -->
         <script type="text/javascript" src="node_modules\jquery\dist\jquery.js"></script>
+
+    }
+    else
+    {
+        <link rel="stylesheet" href="css\app.min.css">
+        <script type="text/javascript" src="js\app.min.js"></script>
     }
 </head>
     <body>

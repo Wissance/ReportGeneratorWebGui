@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<ExecutionConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <!-- 
+       If use MySQL See for parameters Type : https://dev.mysql.com/doc/dev/connector-net/8.0/html/T_MySql_Data_MySqlClient_MySqlDbType.htm
+   -->
+  <DataSource>StoredProcedure</DataSource>
+  <!-- MySqL stored procedure name should be defined as dbName.procedureName -->
+  <Name>reportgeneratortestdb.GetCitizensWithCitiesByCityAndAge</Name>
+  <StoredProcedureParameters>
+    <!-- MySql VarString enum value is 15, VarChar - 253-->
+    <ParameterType>253</ParameterType> 
+    <ParameterName>CityName</ParameterName>
+    <ParameterValue xsi:type="xsd:string">'г. Екатеринбург'</ParameterValue>
+  </StoredProcedureParameters>
+  
+  <StoredProcedureParameters>
+    <!-- MySql Int32 enum value is 3-->
+    <ParameterType>3</ParameterType>
+    <ParameterName>PersonAge</ParameterName>
+    <ParameterValue xsi:type="xsd:string">18</ParameterValue>
+  </StoredProcedureParameters>
+</ExecutionConfig>

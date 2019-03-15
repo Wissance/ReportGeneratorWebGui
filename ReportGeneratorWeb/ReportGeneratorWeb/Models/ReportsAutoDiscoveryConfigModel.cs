@@ -32,7 +32,7 @@ namespace ReportGeneratorWeb.Models
         public string ReportsFilesOutDirectory { get; set; }
 
         private const string DefaultTemplatesPath = @".\wwwroot\files\templates";
-        private const string DefaultParamsPath = @".\reportsTempl\files\params";
+        private const string DefaultParamsPath = @".\wwwroot\files\params";
         private const string DefaultOutPath = @".\out";
     }
 }

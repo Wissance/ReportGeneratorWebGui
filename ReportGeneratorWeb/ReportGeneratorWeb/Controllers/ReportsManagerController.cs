@@ -59,20 +59,12 @@ namespace ReportGeneratorWeb.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GenerateReport([FromQuery] string parametersFile, [FromQuery] string templateFile,
-                                                        [FromQuery] int worksheet, [FromQuery] int row, [FromQuery] int column,
-                                                        [FromQuery] int? userId)
+                                                        [FromQuery] int worksheet, [FromQuery] int row, [FromQuery] int column)
         {
             ReportsAutoDiscoveryConfigModel pathSearchConfig = GetAutoDiscoveryConfig();
             IReportGeneratorManager manager = new ExcelReportGeneratorManager(null, DbEngine.SqlServer, "");
             string reportFile = GetExcelFilePath("Report", Guid.NewGuid());
             ExecutionConfig config = ExecutionConfigManager.Read(Path.Combine(pathSearchConfig.ParametersFilesDirectory, parametersFile));
-            if (userId.HasValue)
-            {
-                if (config.DataSource == ReportDataSource.StoredProcedure)
-                    config.StoredProcedureParameters.Add(new StoredProcedureParameter(1, "UserId", userId.Value));
-                else
-                    config.ViewParameters.WhereParameters.Add(new DbQueryParameter(new[] { JoinCondition.And }, "UserId", "=", userId.Value.ToString()));
-            }
             bool result = await manager.GenerateAsync(Path.Combine(pathSearchConfig.TemplatesFilesDirectory, templateFile), config, reportFile,
                 ExcelReportGeneratorHelper.CreateParameters(worksheet, row, column));
             if (result)

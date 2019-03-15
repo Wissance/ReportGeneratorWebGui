@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<ExecutionConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DataSource>View</DataSource>
+  <Name>CitizensView</Name>
+  <ViewParameters>
+    <WhereParameters>
+      <DbQueryParameter>
+        <ParameterName>FirstName</ParameterName>
+        <ParameterValue>N'Michael'</ParameterValue>
+        <ComparisonOperator>=</ComparisonOperator>
+      </DbQueryParameter>
+      <DbQueryParameter>
+        <Conditions>
+          <JoinCondition>And</JoinCondition>
+          <JoinCondition>Not</JoinCondition>
+        </Conditions>
+        <ParameterName>City</ParameterName>
+        <ParameterValue>N'Yekaterinburg'</ParameterValue>
+        <ComparisonOperator>=</ComparisonOperator>
+      </DbQueryParameter>
+      <DbQueryParameter>
+        <Conditions>
+          <JoinCondition>And</JoinCondition>
+        </Conditions>
+        <ParameterName>Age</ParameterName>
+        <ComparisonOperator>BETWEEN</ComparisonOperator>
+        <ParameterValue>18 AND 60</ParameterValue>
+      </DbQueryParameter>
+      <DbQueryParameter>
+        <Conditions>
+          <JoinCondition>And</JoinCondition>
+        </Conditions>
+        <ParameterName>District</ParameterName>
+        <ComparisonOperator>IN</ComparisonOperator>
+        <ParameterValue>(N'D1', N'A3', N'A5', N'C7')</ParameterValue>
+      </DbQueryParameter>
+      <DbQueryParameter>
+        <Conditions>
+          <JoinCondition>Or</JoinCondition>
+        </Conditions>
+        <ParameterName>Region</ParameterName>
+        <ParameterValue>N'Sverdlovskaya oblast'</ParameterValue>
+        <ComparisonOperator>!=</ComparisonOperator>
+      </DbQueryParameter>
+    </WhereParameters>
+    <OrderByParameters>
+      <DbQueryParameter>
+        <ParameterName>FirstName</ParameterName>
+        <ParameterValue>ASC</ParameterValue>
+      </DbQueryParameter>
+      <DbQueryParameter>
+        <ParameterName>LastName</ParameterName>
+        <ParameterValue>DESC</ParameterValue>
+      </DbQueryParameter>
+    </OrderByParameters>
+    <GroupByParameters>
+      <DbQueryParameter>
+        <ParameterName>District</ParameterName>
+      </DbQueryParameter>
+    </GroupByParameters>
+  </ViewParameters>
+</ExecutionConfig>

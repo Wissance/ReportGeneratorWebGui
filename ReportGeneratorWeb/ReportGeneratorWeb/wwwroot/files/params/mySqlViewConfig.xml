@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<ExecutionConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DataSource>View</DataSource>
+  <Name>CitizensWithRegion</Name>
+  <ViewParameters>
+    <WhereParameters>
+      <DbQueryParameter>
+        <ParameterName>City</ParameterName>
+        <ParameterValue>N'г. Екатеринбург'</ParameterValue>
+        <ComparisonOperator>=</ComparisonOperator>
+      </DbQueryParameter>
+    </WhereParameters>
+    <OrderByParameters>
+      <DbQueryParameter>
+        <ParameterName>FirstName</ParameterName>
+        <ParameterValue>ASC</ParameterValue>
+      </DbQueryParameter>
+    </OrderByParameters>
+  </ViewParameters>
+</ExecutionConfig>

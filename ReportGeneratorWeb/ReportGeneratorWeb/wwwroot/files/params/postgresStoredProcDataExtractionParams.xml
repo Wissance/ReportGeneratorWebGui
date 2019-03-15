@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<ExecutionConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <!-- 
+       If use Postgres See for parameters Type : https://www.npgsql.org/doc/api/NpgsqlTypes.NpgsqlDbType.html
+   -->
+  <DataSource>StoredProcedure</DataSource>
+  <!-- MySqL stored procedure name should be defined as dbName.procedureName -->
+  <Name>public.getcitizenswithcitiesbycity</Name>
+  <StoredProcedureParameters>
+    <!-- Postgres VarChar - 22-->
+    <ParameterType>22</ParameterType>
+    <ParameterName>CityName</ParameterName>
+    <ParameterValue xsi:type="xsd:string">'Yekaterinburg'</ParameterValue>
+  </StoredProcedureParameters>
+  <!-- Postgres Integer enum value is 9-->
+  <!--
+  <StoredProcedureParameters>
+    
+    <ParameterType>9</ParameterType>
+    <ParameterName>PersonAge</ParameterName>
+    <ParameterValue xsi:type="xsd:string">18</ParameterValue>
+  </StoredProcedureParameters>
+  -->
+</ExecutionConfig>
