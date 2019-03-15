@@ -131,16 +131,15 @@ namespace ReportGeneratorWeb.Controllers
 
         private ReportParametersInfoModel Create(FileInfo file)
         {
-            /*ExecutionConfig config = ExecutionConfigManager.Read(file.FullName);
-            string[] fileContent = System.IO.File.ReadAllLines(file.FullName);*/
-            //ReportParametersInfoModel parametersInfo = new ReportParametersInfoModel(file.Name, "", "",/*config.DisplayName, config.Description,*/ fileContent);
-            //return parametersInfo;
-            return null;
+            ExecutionConfig config = ExecutionConfigManager.Read(file.FullName);
+            string[] fileContent = System.IO.File.ReadAllLines(file.FullName);
+            ReportParametersInfoModel parametersInfo = new ReportParametersInfoModel(file.Name, "", "",/*config.DisplayName, config.Description,*/ fileContent);
+            return parametersInfo;
         }
 
-        private const string ParametersSubDirectory = "files";
-        private const string TemplatesSubDirectory = "files";
-        private const string ReportsOutSubDirectory = "files";
+        private const string ParametersSubDirectory = @"files/params";
+        private const string TemplatesSubDirectory = @"files/templates";
+        private const string ReportsOutSubDirectory = "files/gen";
 
         private const string MsExcelExtension = ".xlsx"; // for 2010+ version of Office
         private const string XmlExtension = ".xml";
