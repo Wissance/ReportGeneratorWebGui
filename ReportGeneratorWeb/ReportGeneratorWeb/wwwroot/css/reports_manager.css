@@ -4,6 +4,9 @@
 div.main-row-column {
     height: 100%;
 }
+div.file-list-container {
+    width: 100%;
+}
 select.files-list {
     width: 90%;
     height: 180px;
