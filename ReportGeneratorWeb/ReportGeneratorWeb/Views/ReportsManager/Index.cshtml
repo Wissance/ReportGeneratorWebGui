@@ -14,7 +14,7 @@
                 <h6> <b>Список файлов параметров: </b></h6> <br/>
                 <div class="file-list-container">
                 @{
-                    using (Html.BeginForm("GetParamsFile", "ReportsManager", FormMethod.Get))
+                    using (Html.BeginForm("GetParamsFile", "ReportsManager", FormMethod.Get, new {@class="file-selection-form"}))
                     {
                         SelectListItem[] paramsListItems = Model.ParametersFiles.Select(p =>
                         {
@@ -24,7 +24,7 @@
                                 Value = p.ParametersFileName
                             };
                         }).ToArray();
-                        @Html.ListBox("parameteresFileName", paramsListItems, new { id = "reports-params-files-list", @class = "form-control files-list" })
+                        @Html.ListBox("parameteresFileName", paramsListItems, new { id = "reports-params-files-list", @class = "form-control files-list", style="height:90%"})
                     <button class="btn btn-outline-dark pull-right files-download-btn" id="get-report-param-file-btn" disabled>
                         Скачать
                         <i class="far fa-arrow-alt-circle-down"></i>
@@ -37,7 +37,7 @@
                 <h6> <b>Список файлов шаблонов: </b></h6>
                 <div class="file-list-container">
                     @{
-                        using (Html.BeginForm("GetTemplateFile", "ReportsManager", FormMethod.Get))
+                        using (Html.BeginForm("GetTemplateFile", "ReportsManager", FormMethod.Get, new { @class = "file-selection-form"}))
                         {
                             SelectListItem[] templatesListItems = Model.TemplatesFiles.Select(p =>
                             {
@@ -47,7 +47,7 @@
                                     Value = p
                                 };
                             }).ToArray();
-                            @Html.ListBox("templateFileName", templatesListItems, new { id = "reports-templates-files-list", @class = "form-control files-list" })
+                            @Html.ListBox("templateFileName", templatesListItems, new { id = "reports-templates-files-list", @class = "form-control files-list", style="height:90%"})
                             <button class="btn btn-outline-dark pull-right files-download-btn" id="get-report-template-file-btn" disabled="">
                                 Скачать
                                 <i class="far fa-arrow-alt-circle-down"></i>

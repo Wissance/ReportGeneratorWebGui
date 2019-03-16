@@ -5,6 +5,7 @@
     "devDependencies": {
         "bootstrap": "^4.3.1",
         "font-awesome-5-css": "5.4.1",
+        "google-fonts-offline": "0.1.5",
         "gulp": "3.9.1",
         "gulp-concat": "2.6.1",
         "gulp-cssmin": "0.2.0",
