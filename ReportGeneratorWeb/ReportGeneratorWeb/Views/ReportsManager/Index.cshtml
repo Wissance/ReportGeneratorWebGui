@@ -25,7 +25,7 @@
                             };
                         }).ToArray();
                         @Html.ListBox("parameteresFileName", paramsListItems, new { id = "reports-params-files-list", @class = "form-control files-list" })
-                    <button class="btn btn-default pull-right files-download-btn" id="get-report-param-file-btn" disabled>
+                    <button class="btn btn-outline-dark pull-right files-download-btn" id="get-report-param-file-btn" disabled>
                         Скачать
                         <i class="far fa-arrow-alt-circle-down"></i>
                     </button>
@@ -48,7 +48,7 @@
                                 };
                             }).ToArray();
                             @Html.ListBox("templateFileName", templatesListItems, new { id = "reports-templates-files-list", @class = "form-control files-list" })
-                            <button class="btn btn-default pull-right files-download-btn" id="get-report-template-file-btn" disabled="">
+                            <button class="btn btn-outline-dark pull-right files-download-btn" id="get-report-template-file-btn" disabled="">
                                 Скачать
                                 <i class="far fa-arrow-alt-circle-down"></i>
                             </button>
@@ -98,7 +98,7 @@
                     @Html.TextBox("column", 1, new {@class = "form-control short-form-item", style = "width: 80px;", id ="column-form-item"})
                 </div>
                 // submit
-                <button id="generate-form-submit-btn" type="submit" class="btn btn-default" disabled>Сгенерировать</button>
+                <button id="generate-form-submit-btn" type="submit" class="btn btn-outline-dark" disabled>Сгенерировать</button>
             }
         }
     </div>
