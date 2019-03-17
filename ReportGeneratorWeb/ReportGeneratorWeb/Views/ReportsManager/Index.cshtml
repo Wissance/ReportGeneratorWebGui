@@ -13,24 +13,24 @@
             <div class="row files-list-row">
                 <h6> <b>Список файлов параметров: </b></h6> <br/>
                 <div class="file-list-container">
-                @{
-                    using (Html.BeginForm("GetParamsFile", "ReportsManager", FormMethod.Get, new {@class="file-selection-form"}))
-                    {
-                        SelectListItem[] paramsListItems = Model.ParametersFiles.Select(p =>
+                    @{
+                        using (Html.BeginForm("GetParamsFile", "ReportsManager", FormMethod.Get, new {@class="file-selection-form"}))
                         {
-                            return new SelectListItem()
+                            SelectListItem[] paramsListItems = Model.ParametersFiles.Select(p =>
                             {
-                                Text = p.ParametersFileName,
-                                Value = p.ParametersFileName
-                            };
-                        }).ToArray();
-                        @Html.ListBox("parameteresFileName", paramsListItems, new { id = "reports-params-files-list", @class = "form-control files-list", style="height:90%"})
-                    <button class="btn btn-outline-dark pull-right files-download-btn" id="get-report-param-file-btn" disabled>
-                        Скачать
-                        <i class="far fa-arrow-alt-circle-down"></i>
-                    </button>
+                                return new SelectListItem()
+                                {
+                                    Text = p.ParametersFileName,
+                                    Value = p.ParametersFileName
+                                };
+                            }).ToArray();
+                            @Html.ListBox("parameteresFileName", paramsListItems, new { id = "reports-params-files-list", @class = "form-control files-list", style="height:90%"})
+                            <button class="btn btn-outline-dark pull-right files-download-btn" id="get-report-param-file-btn" disabled>
+                                Скачать
+                                <i class="far fa-arrow-alt-circle-down"></i>
+                            </button>
+                        }
                     }
-                }
                 </div>
             </div>
             <div class="row files-list-row">
@@ -72,8 +72,11 @@
             @Html.TextArea("ParamsFileContent", "", new {id = "params-file-content", @class = "form-control param-file-block param-file-content", style = "height: 45%" })
         </div>
     </div>
+    <br/>
     <div class="row report-gen-row">
         <h6>Генерация отчетов для выбранных файла параметра <b id="selected-4gen-param-file"></b> и шаблона <b id="selected-4gen-template-file"></b> :</h6>
+    </div>
+    <div class="row">
         @{
             using (Html.BeginForm("GenerateReport", "ReportsManager", FormMethod.Get, new {@class="form-inline"}))
             {
