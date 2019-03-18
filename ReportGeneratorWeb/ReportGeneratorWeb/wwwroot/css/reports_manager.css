@@ -43,6 +43,7 @@ textarea.param-file-block {
     overflow-y: auto;
     font-family: 'Roboto', sans-serif;
     font-size: 12px;
+    resize: none;
 }
 select.param-file-displayname {
     height: 10%;
@@ -73,15 +74,22 @@ button#generate-form-submit-btn {
     font-size: 12px;
 }
 
+/* Merge 2gether line & short form items classes*/
+input.line-form-item {
+    margin-right: 10px;
+    margin-left: 5px;
+    width: 80px;
+}
+input.short-form-item {
+    width: 25px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+}
+
 div.files-list-row {
     padding-left: 10px;
     height: 50%;
 }
 div.report-gen-row {
     /*height: 40px;*/
-}
-.short-form-item {
-    width: 25px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px;
 }

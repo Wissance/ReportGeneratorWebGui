@@ -88,20 +88,23 @@
                 // worksheet
                 <div class="form-group">
                     @Html.Label("worksheet", "Лист Excel:", new { @class = "", id = "worksheet-form-label" })
-                    @Html.TextBox("worksheet", 1, new {@class = "form-control short-form-item", style = "width: 80px;", id ="worksheet-form-item"})
+                    @Html.TextBox("worksheet", 1, new {@class = "form-control short-form-item line-form-item", style = "", id ="worksheet-form-item"})
                 </div>
                 // row
                 <div class="form-group">
                     @Html.Label("row", "№ строки:", new { @class = "", id = " row-form-label" })
-                    @Html.TextBox("row", 1, new {@class = "form-control short-form-item", style="width: 80px;", id="row-form-item"})
+                    @Html.TextBox("row", 1, new {@class = "form-control short-form-item line-form-item", style="", id="row-form-item"})
                 </div>
                 // column
                 <div class="form-group">
                     @Html.Label("column", "№ столбца:", new { @class = "", id = "column-form-label" })
-                    @Html.TextBox("column", 1, new {@class = "form-control short-form-item", style = "width: 80px;", id ="column-form-item"})
+                    @Html.TextBox("column", 1, new {@class = "form-control short-form-item line-form-item", style = "", id ="column-form-item"})
                 </div>
                 // submit
-                <button id="generate-form-submit-btn" type="submit" class="btn btn-outline-dark" disabled>Сгенерировать</button>
+                <button id="generate-form-submit-btn" type="submit" class="btn btn-outline-dark" disabled>
+                    <i class="fas fa-bolt"></i>
+                    Сгенерировать
+                </button>
             }
         }
     </div>
