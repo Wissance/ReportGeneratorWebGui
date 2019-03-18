@@ -6,6 +6,8 @@
   <DataSource>StoredProcedure</DataSource>
   <!-- MySqL stored procedure name should be defined as dbName.procedureName -->
   <Name>reportgeneratortestdb.GetCitizensWithCitiesByCityAndAge</Name>
+  <DisplayName> Генератор списка жителей в MSSQL базе данных</DisplayName>
+  <Description> В данном репорте через хранимую процедуру отбираются записи по условию фильтрации город и возраст (значения по-умолчанию: Екатеринбург, 18)</Description>
   <StoredProcedureParameters>
     <!-- MySql VarString enum value is 15, VarChar - 253-->
     <ParameterType>253</ParameterType> 
