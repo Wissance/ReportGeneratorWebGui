@@ -6,15 +6,16 @@
     ViewBag.Title = "Генератор Excel - отчетов";
     Layout = "~/Views/_Layout.cshtml";
 }
+
 <div class="container">
     <h5>@ViewBag.Title</h5>
     <div class="row main-row">
         <div class="col-md-4 main-row-column">
             <div class="row files-list-row">
-                <h6> <b>Список файлов параметров: </b></h6> <br/>
+                <h6> <b>Список файлов параметров: </b></h6> <br />
                 <div class="file-list-container">
                     @{
-                        using (Html.BeginForm("GetParamsFile", "ReportsManager", FormMethod.Get, new {@class="file-selection-form"}))
+                        using (Html.BeginForm("GetParamsFile", "ReportsManager", FormMethod.Get, new { @class = "file-selection-form" }))
                         {
                             SelectListItem[] paramsListItems = Model.ParametersFiles.Select(p =>
                             {
@@ -24,7 +25,9 @@
                                     Value = p.ParametersFileName
                                 };
                             }).ToArray();
-                            @Html.ListBox("parameteresFileName", paramsListItems, new { id = "reports-params-files-list", @class = "form-control files-list", style="height:90%"})
+                            @Html.ListBox("parameteresFileName", paramsListItems, new { id = "reports-params-files-list",
+                                                                                        @class = "form-control files-list",
+                                                                                        style ="height:90%"})
                             <button class="btn btn-outline-dark pull-right files-download-btn" id="get-report-param-file-btn" disabled>
                                 Скачать
                                 <i class="far fa-arrow-alt-circle-down"></i>
@@ -37,7 +40,7 @@
                 <h6> <b>Список файлов шаблонов: </b></h6>
                 <div class="file-list-container">
                     @{
-                        using (Html.BeginForm("GetTemplateFile", "ReportsManager", FormMethod.Get, new { @class = "file-selection-form"}))
+                        using (Html.BeginForm("GetTemplateFile", "ReportsManager", FormMethod.Get, new { @class = "file-selection-form" }))
                         {
                             SelectListItem[] templatesListItems = Model.TemplatesFiles.Select(p =>
                             {
@@ -47,7 +50,7 @@
                                     Value = p
                                 };
                             }).ToArray();
-                            @Html.ListBox("templateFileName", templatesListItems, new { id = "reports-templates-files-list", @class = "form-control files-list", style="height:90%"})
+                            @Html.ListBox("templateFileName", templatesListItems, new { id = "reports-templates-files-list", @class = "form-control files-list", style = "height:90%" })
                             <button class="btn btn-outline-dark pull-right files-download-btn" id="get-report-template-file-btn" disabled="">
                                 Скачать
                                 <i class="far fa-arrow-alt-circle-down"></i>
@@ -59,46 +62,80 @@
         </div>
         <div class="col-md-8 main-row-column">
             <h6> Файл параметров: <b id="param-file-name-title"></b></h6>
-            <p><b> Имя для отображения: </b>
+            <p>
+                <b> Имя для отображения: </b>
             </p>
-            @Html.TextArea("ParamsDisplayName", "", new {id = "param-file-display-name", @class = "form-control param-file-block param-file-displayname", style="height: 10%"})
+            @Html.TextArea("ParamsDisplayName", "", new { id = "param-file-display-name", @class = "form-control param-file-block param-file-displayname", style = "height: 10%" })
 
-            <p><b> Описание: </b>
+            <p>
+                <b> Описание: </b>
             </p>
-            @Html.TextArea("ParamsDescription", "", new {id = "param-file-description", @class = "form-control param-file-block param-file-description", style = "height: 15%" })
+            @Html.TextArea("ParamsDescription", "", new { id = "param-file-description", @class = "form-control param-file-block param-file-description", style = "height: 15%" })
 
-            <p><b> Содержимое файла: </b>
+            <p>
+                <b> Содержимое файла: </b>
             </p>
-            @Html.TextArea("ParamsFileContent", "", new {id = "params-file-content", @class = "form-control param-file-block param-file-content", style = "height: 45%" })
+            @Html.TextArea("ParamsFileContent", "", new { id = "params-file-content", @class = "form-control param-file-block param-file-content", style = "height: 45%" })
         </div>
     </div>
-    <br/>
+    <br />    
+    <div class="row data-source-row">
+        <!-- Database type (MSSQL, MySQL, Postgres, SQLite) -->
+        <div class="col-md-4 data-source-cell-item">
+            <div class="row" style="margin: 0;">
+                <div class="col-md-4 data-source-cell-item">
+                    @Html.Label("DataSourceTypeLabel", "Тип базы данных: ", new
+                    {
+                        id = "data-source-type-label",
+                        @class = ""
+                    })
+                </div>
+                <div class="col-md-7 data-source-cell-item">
+                    @Html.TextBox("DataSourceType", "", "", new { id = "data-source-type", @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <!-- Connection string -->
+        <div class="col-md-8 data-source-cell-item">
+            <div class="row" style="margin: 0;">
+                <div class="col-md-4 data-source-cell-item">
+                    @Html.Label("DataSourceConnStrLabel", "Строка подключения к базе данных: ",
+                        new {id = "data-source-conn-str-label", @class = ""})
+                </div>
+                <div class="col-md-8 data-source-cell-item">
+                    @Html.TextBox("DataSourceConnStr", "", "", new { id = "data-source-conn-str", @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row report-gen-row">
         <h6>Генерация отчетов для выбранных файла параметра <b id="selected-4gen-param-file"></b> и шаблона <b id="selected-4gen-template-file"></b> :</h6>
     </div>
+
     <div class="row">
         @{
-            using (Html.BeginForm("GenerateReport", "ReportsManager", FormMethod.Get, new {@class="form-inline"}))
+            using (Html.BeginForm("GenerateReport", "ReportsManager", FormMethod.Get, new { @class = "form-inline" }))
             {
                 // make here hidden fields
-                @Html.Hidden("parametersFile", "", new {id = "form-selected-param-file"})
+                @Html.Hidden("parametersFile", "", new { id = "form-selected-param-file" })
                 @Html.Hidden("templateFile", "", new { id = "form-selected-template-file" })
+                // todo: UMV: pass DataSourceType, DataSource, Parameters Values
 
                 // following shoud be placed inside form group
                 // worksheet
                 <div class="form-group">
                     @Html.Label("worksheet", "Лист Excel:", new { @class = "", id = "worksheet-form-label" })
-                    @Html.TextBox("worksheet", 1, new {@class = "form-control short-form-item line-form-item", style = "", id ="worksheet-form-item"})
+                    @Html.TextBox("worksheet", 1, new { @class = "form-control short-form-item line-form-item", style = "", id = "worksheet-form-item" })
                 </div>
                 // row
                 <div class="form-group">
                     @Html.Label("row", "№ строки:", new { @class = "", id = " row-form-label" })
-                    @Html.TextBox("row", 1, new {@class = "form-control short-form-item line-form-item", style="", id="row-form-item"})
+                    @Html.TextBox("row", 1, new { @class = "form-control short-form-item line-form-item", style = "", id = "row-form-item" })
                 </div>
                 // column
                 <div class="form-group">
                     @Html.Label("column", "№ столбца:", new { @class = "", id = "column-form-label" })
-                    @Html.TextBox("column", 1, new {@class = "form-control short-form-item line-form-item", style = "", id ="column-form-item"})
+                    @Html.TextBox("column", 1, new { @class = "form-control short-form-item line-form-item", style = "", id = "column-form-item" })
                 </div>
                 // submit
                 <button id="generate-form-submit-btn" type="submit" class="btn btn-outline-dark" disabled>
@@ -111,12 +148,12 @@
 </div>
 
 <script type="text/javascript">
-    // todo: move script to wwwRoot
-    var model = @Html.Raw(Json.Serialize(Model));
+    // todo: move script to wwwRoot, unfortunately is not working now ...
+    var reportsManagerModel = @Html.Raw(Json.Serialize(Model));
     $("#reports-params-files-list").change(function () {
         $("#get-report-param-file-btn").prop('disabled', false);
         // console.log("Selected parameters file was changed");
-        var paramsFiles = model.parametersFiles;
+        var paramsFiles = reportsManagerModel.parametersFiles;
         var selectedValues = $("#reports-params-files-list").val();  // multiselect ? why ?
         var selectedValue = selectedValues != null && selectedValues.length > 0 ? selectedValues[0] : "";
         $("#selected-4gen-param-file").text(selectedValue);

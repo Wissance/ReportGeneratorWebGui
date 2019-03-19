@@ -133,7 +133,7 @@ namespace ReportGeneratorWeb.Controllers
         {
             ExecutionConfig config = ExecutionConfigManager.Read(file.FullName);
             string[] fileContent = System.IO.File.ReadAllLines(file.FullName);
-            ReportParametersInfoModel parametersInfo = new ReportParametersInfoModel(file.Name, /*config.DisplayName, config.Description,*/"","", fileContent);
+            ReportParametersInfoModel parametersInfo = new ReportParametersInfoModel(file.Name, config.DisplayName, config.Description, fileContent);
             return parametersInfo;
         }
 

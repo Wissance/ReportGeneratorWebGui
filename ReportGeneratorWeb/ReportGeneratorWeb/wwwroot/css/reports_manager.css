@@ -90,6 +90,48 @@ div.files-list-row {
     padding-left: 10px;
     height: 50%;
 }
+
+div.data-source-row {
+    margin-bottom: 10px;
+}
+
+label#data-source-type-label {
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    margin-top: 7px;
+}
+
+/*div.data-source-group {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+}*/
+
+div.data-source-cell-item {
+    padding: 0;
+}
+
+input#data-source-type {
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    margin-right: 10px;
+}
+
+label#data-source-conn-str-label {
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    margin-top: 7px;
+}
+
+input#data-source-conn-str {
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+}
+
 div.report-gen-row {
     /*height: 40px;*/
 }
