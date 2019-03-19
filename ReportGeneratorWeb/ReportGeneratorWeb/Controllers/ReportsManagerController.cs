@@ -100,7 +100,7 @@ namespace ReportGeneratorWeb.Controllers
             IList<string> templatesFiles = GetFiles(autoDiscoveryConfig.TemplatesFilesDirectory, "*" + MsExcelExtension).Select(fi => fi.Name).ToList();
             IList<FileInfo> parametersFiles = GetFiles(autoDiscoveryConfig.ParametersFilesDirectory, "*" + XmlExtension);
             IList<ReportParametersInfoModel> parameters = parametersFiles.Select(Create).ToList();
-            return new ReportsModel(parameters, templatesFiles, autoDiscoveryConfig);
+            return new ReportsModel(parameters, templatesFiles, autoDiscoveryConfig, _availableDataSources);
         }
 
         private ReportsAutoDiscoveryConfigModel GetAutoDiscoveryConfig()
@@ -150,6 +150,14 @@ namespace ReportGeneratorWeb.Controllers
         {
             { MsExcelExtension, "application/vnd.ms-excel"},
             { XmlExtension, "application/xml" }
+        };
+
+        private readonly IDictionary<DbEngine, string> _availableDataSources = new Dictionary<DbEngine, string>()
+        {
+            { DbEngine.SqlServer, "MS SQL"},
+            { DbEngine.SqLite, "SQLite"},
+            { DbEngine.MySql, "MySQL"},
+            { DbEngine.PostgresSql, "Postgres SQL"}
         };
     }
 }

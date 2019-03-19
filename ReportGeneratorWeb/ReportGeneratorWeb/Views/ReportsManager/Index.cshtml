@@ -91,7 +91,9 @@
                     })
                 </div>
                 <div class="col-md-7 data-source-cell-item">
-                    @Html.TextBox("DataSourceType", "", "", new { id = "data-source-type", @class = "form-control" })
+                    @Html.DropDownList("DataSourceType", 
+                                       Model.AvailableDataSources.Select(item => new SelectListItem(item.Value, item.Value)), "MS SQL",
+                                       new {id = "data-source-type", @class = "form-control"})
                 </div>
             </div>
         </div>
@@ -103,7 +105,8 @@
                         new {id = "data-source-conn-str-label", @class = ""})
                 </div>
                 <div class="col-md-8 data-source-cell-item">
-                    @Html.TextBox("DataSourceConnStr", "", "", new { id = "data-source-conn-str", @class = "form-control" })
+                    @Html.TextBox("DataSourceConnStr", @"Server=(localdb)\mssqllocaldb;Database=Database;Trusted_Connection=True;",
+                                  "", new { id = "data-source-conn-str", @class = "form-control" })
                 </div>
             </div>
         </div>

@@ -112,7 +112,7 @@ div.data-source-cell-item {
     padding: 0;
 }
 
-input#data-source-type {
+select#data-source-type {
     width: 100%;
     font-family: 'Roboto', sans-serif;
     font-size: 12px;
