@@ -8,6 +8,7 @@ using DbTools.Core;
 using Microsoft.AspNetCore.Mvc;
 using ReportGeneratorWeb.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 using ReportGenerator.Core.Config;
 using ReportGenerator.Core.Data.Parameters;
 using ReportGenerator.Core.Helpers;
@@ -24,9 +25,9 @@ namespace ReportGeneratorWeb.Controllers
     /// </summary>
     public class ReportsManagerController : Controller
     {
-        public ReportsManagerController(/*IFileStoreService fileStoreService,*/ IHostingEnvironment environment)
+        public ReportsManagerController(ILoggerFactory loggerFactory, IHostingEnvironment environment)
         {
-            //_fileStoreService = fileStoreService;
+            _loggerFactory = loggerFactory;
             _environment = environment;
         }
 
@@ -63,7 +64,8 @@ namespace ReportGeneratorWeb.Controllers
                                                         [FromQuery] int worksheet, [FromQuery] int row, [FromQuery] int column)
         {
             ReportsAutoDiscoveryConfigModel pathSearchConfig = GetAutoDiscoveryConfig();
-            IReportGeneratorManager manager = new ExcelReportGeneratorManager(null, DbEngine.SqlServer, "");
+            KeyValuePair<DbEngine, string> dataSourceDbEngine = _availableDataSources.First(item => string.Equals(item.Value.Trim().ToLower(), dataSourceType.Trim().ToLower()));
+            IReportGeneratorManager manager = new ExcelReportGeneratorManager(_loggerFactory, dataSourceDbEngine.Key, dataSourceConnStr);
             string reportFile = GetExcelFilePath("Report", Guid.NewGuid());
             ExecutionConfig config = ExecutionConfigManager.Read(Path.Combine(pathSearchConfig.ParametersFilesDirectory, parametersFile));
             bool result = await manager.GenerateAsync(Path.Combine(pathSearchConfig.TemplatesFilesDirectory, templateFile), config, reportFile,
@@ -92,7 +94,7 @@ namespace ReportGeneratorWeb.Controllers
 
         private string GetExcelFilePath(string prefixName, Guid fileId)
         {
-            return Path.Combine(/*_fileStoreService.GetTempFileStorePath()*/ ".", $"{prefixName}_{fileId}.xlsx");
+            return Path.Combine(".", $"{prefixName}_{fileId}.xlsx");
         }
 
         private ReportsModel CreateModel()
@@ -146,6 +148,7 @@ namespace ReportGeneratorWeb.Controllers
         private const string XmlExtension = ".xml";
 
         private readonly IHostingEnvironment _environment;
+        private readonly ILoggerFactory _loggerFactory;
 
         private readonly IDictionary<string, string> _expectedMimeTypes = new Dictionary<string, string>()
         {

@@ -92,7 +92,7 @@
                 </div>
                 <div class="col-md-7 data-source-cell-item">
                     @Html.DropDownList("DataSourceType", 
-                                       Model.AvailableDataSources.Select(item => new SelectListItem(item.Value, item.Value)), "",
+                                       Model.AvailableDataSources.Select(item => new SelectListItem(item.Value, item.Value, string.Equals(item.Value, "MS SQL"))), "",
                                        new {id = "data-source-type", @class = "form-control"})
                 </div>
             </div>
