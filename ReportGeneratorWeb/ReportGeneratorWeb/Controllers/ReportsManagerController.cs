@@ -58,7 +58,8 @@ namespace ReportGeneratorWeb.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GenerateReport([FromQuery] string parametersFile, [FromQuery] string templateFile,
+        public async Task<IActionResult> GenerateReport([FromQuery] string dataSourceType, [FromQuery] string dataSourceConnStr,
+                                                        [FromQuery] string parametersFile, [FromQuery] string templateFile,
                                                         [FromQuery] int worksheet, [FromQuery] int row, [FromQuery] int column)
         {
             ReportsAutoDiscoveryConfigModel pathSearchConfig = GetAutoDiscoveryConfig();

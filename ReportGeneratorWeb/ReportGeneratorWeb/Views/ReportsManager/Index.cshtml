@@ -92,7 +92,7 @@
                 </div>
                 <div class="col-md-7 data-source-cell-item">
                     @Html.DropDownList("DataSourceType", 
-                                       Model.AvailableDataSources.Select(item => new SelectListItem(item.Value, item.Value)), "MS SQL",
+                                       Model.AvailableDataSources.Select(item => new SelectListItem(item.Value, item.Value)), "",
                                        new {id = "data-source-type", @class = "form-control"})
                 </div>
             </div>
@@ -120,6 +120,8 @@
             using (Html.BeginForm("GenerateReport", "ReportsManager", FormMethod.Get, new { @class = "form-inline" }))
             {
                 // make here hidden fields
+                @Html.Hidden("dataSourceType", "", new { id = "form-selected-data-source-type" })
+                @Html.Hidden("dataSourceConnStr", "", new { id = "form-selected-data-source-conn-str" })
                 @Html.Hidden("parametersFile", "", new { id = "form-selected-param-file" })
                 @Html.Hidden("templateFile", "", new { id = "form-selected-template-file" })
                 // todo: UMV: pass DataSourceType, DataSource, Parameters Values
@@ -151,6 +153,13 @@
 </div>
 
 <script type="text/javascript">
+    $(document).ready(function() {
+        var selectedDataSourceTypeValue = $("#data-source-type").val();
+        $("#form-selected-data-source-type").val(selectedDataSourceTypeValue);
+
+        var selectedDataSourceValue = $("#data-source-conn-str").val();
+        $("#form-selected-data-source-conn-str").val(selectedDataSourceValue);
+    });
     // todo: move script to wwwRoot, unfortunately is not working now ...
     var reportsManagerModel = @Html.Raw(Json.Serialize(Model));
     $("#reports-params-files-list").change(function () {
@@ -199,5 +208,15 @@
         $("#form-selected-template-file").val(selectedValue);
         if ($("#form-selected-param-file").val() !== "" && $("#form-selected-template-file").val() !== "")
             $("#generate-form-submit-btn").prop('disabled', false);
+    });
+
+    $("#data-source-type").change(function () {
+        var selectedValue = $("#data-source-type").val();
+        $("#form-selected-data-source-type").val(selectedValue);
+    });
+
+    $("#data-source-conn-str").change(function() {
+        var selectedValue = $("#data-source-conn-str").val();
+        $("#form-selected-data-source-conn-str").val(selectedValue);
     });
 </script>
