@@ -58,6 +58,7 @@ namespace ReportGeneratorWeb.Controllers
             return result;
         }
 
+        // todo: implement parameters passing
         [HttpGet]
         public async Task<IActionResult> GenerateReport([FromQuery] string dataSourceType, [FromQuery] string dataSourceConnStr,
                                                         [FromQuery] string parametersFile, [FromQuery] string templateFile,
