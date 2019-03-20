@@ -26,8 +26,8 @@
                                 };
                             }).ToArray();
                             @Html.ListBox("parameteresFileName", paramsListItems, new { id = "reports-params-files-list",
-                                                                                        @class = "form-control files-list",
-                                                                                        style ="height:90%"})
+                                @class = "form-control files-list",
+                                style ="height:90%"})
                             <button class="btn btn-outline-dark pull-right files-download-btn" id="get-report-param-file-btn" disabled>
                                 Скачать
                                 <i class="far fa-arrow-alt-circle-down"></i>
@@ -75,7 +75,12 @@
             <p>
                 <b> Содержимое файла: </b>
             </p>
-            @Html.TextArea("ParamsFileContent", "", new { id = "params-file-content", @class = "form-control param-file-block param-file-content", style = "height: 45%" })
+            <div class="params-file-group">
+                @Html.TextArea("ParamsFileContent", "", new { id = "params-file-content", @class = "form-control param-file-block param-file-content", style = "height: 100%" })
+                <button id="set-params-btn" type="submit" class="btn btn-outline-dark" disabled>
+                    <span><i class="fas fa-tasks"></i></span>
+                </button>
+            </div>
         </div>
     </div>
     <br />    
@@ -92,8 +97,8 @@
                 </div>
                 <div class="col-md-7 data-source-cell-item">
                     @Html.DropDownList("DataSourceType", 
-                                       Model.AvailableDataSources.Select(item => new SelectListItem(item.Value, item.Value, string.Equals(item.Value, "MS SQL"))), "",
-                                       new {id = "data-source-type", @class = "form-control"})
+                        Model.AvailableDataSources.Select(item => new SelectListItem(item.Value, item.Value, string.Equals(item.Value, "MS SQL"))), "",
+                        new {id = "data-source-type", @class = "form-control"})
                 </div>
             </div>
         </div>
@@ -106,7 +111,7 @@
                 </div>
                 <div class="col-md-8 data-source-cell-item">
                     @Html.TextBox("DataSourceConnStr", @"Server=(localdb)\mssqllocaldb;Database=Database;Trusted_Connection=True;",
-                                  "", new { id = "data-source-conn-str", @class = "form-control" })
+                        "", new { id = "data-source-conn-str", @class = "form-control" })
                 </div>
             </div>
         </div>
@@ -151,6 +156,9 @@
         }
     </div>
 </div>
+<div id="set-params-modal" class="modal fade">
+    <div id="set-params-modal-content" class="modal-dialog"></div>
+</div>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -193,6 +201,7 @@
                 }
 
                 $("#params-file-content").val(pf.fileContent.join("\n"));
+                $("#set-params-btn").prop('disabled', false);
             }
         }
         if ($("#form-selected-param-file").val() !== "" && $("#form-selected-template-file").val() !== "")
@@ -218,5 +227,13 @@
     $("#data-source-conn-str").change(function() {
         var selectedValue = $("#data-source-conn-str").val();
         $("#form-selected-data-source-conn-str").val(selectedValue);
+    });
+
+    $("#set-params-btn").click(function () {
+        // todo: pass paramsFile
+        $.get("ReportsManager/SetParameters", function (data) {
+            $("#set-params-modal-content").html(data);
+            $("#set-params-modal").modal("show");
+        });
     });
 </script>

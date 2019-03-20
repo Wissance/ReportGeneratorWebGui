@@ -37,6 +37,12 @@ select.files-list {
     font-family: 'Roboto', sans-serif;
     font-size: 12px;
 }
+div.params-file-group {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    height: 45%;
+}
 textarea.param-file-block {
     width: 90%;
     overflow-x: auto;
@@ -44,6 +50,11 @@ textarea.param-file-block {
     font-family: 'Roboto', sans-serif;
     font-size: 12px;
     resize: none;
+}
+button#set-params-btn {
+    width: 30px;
+    height: 30px;
+    padding: 0;
 }
 select.param-file-displayname {
     height: 10%;

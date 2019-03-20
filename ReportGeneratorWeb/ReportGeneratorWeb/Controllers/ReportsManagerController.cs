@@ -39,6 +39,12 @@ namespace ReportGeneratorWeb.Controllers
         }
 
         [HttpGet]
+        public IActionResult SetParameters()
+        {
+            return PartialView("Modals/SetParametersModal");
+        }
+
+        [HttpGet]
         public IActionResult GetParamsFile([FromQuery] string parameteresFileName)
         {
             ReportsAutoDiscoveryConfigModel config = GetAutoDiscoveryConfig();

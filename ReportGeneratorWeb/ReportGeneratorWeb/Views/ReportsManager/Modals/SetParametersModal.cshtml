@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    // ViewBag.Title = "Генератор Excel - отчетов";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+<div class="modal-content">  
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <!--todo: umv: should mention ParamsFile, StoredProc/View type and name-->
+        <h4 class="modal-title">Установка параметров для генерации отчета</h4>  
+    </div>  
+    <div class="modal-body">  
+        <form>  
+            <div>
+                Здесь должен быть набор параметров в виде Имя / Значение
+            </div>
+        </form>  
+    </div>  
+    <div class="modal-footer">  
+        <button type="submit" class="btn btn-primary">
+            ОК
+        </button>  
+        <button type="button" id="btnHideModal" class="btn btn-primary">  
+            Отмена  
+        </button>  
+    </div>  
+</div>  
