@@ -39,9 +39,24 @@ namespace ReportGeneratorWeb.Controllers
         }
 
         [HttpGet]
-        public IActionResult SetParameters()
+        public IActionResult SetParameters([FromQuery] string parametersFile)
         {
-            return PartialView("Modals/SetParametersModal");
+            ReportsAutoDiscoveryConfigModel pathSearchConfig = GetAutoDiscoveryConfig();
+            ExecutionConfig config = ExecutionConfigManager.Read(Path.Combine(pathSearchConfig.ParametersFilesDirectory, parametersFile));
+            ParametersModel model = new ParametersModel();
+            model.ParametersFile = parametersFile;
+            if (config.DataSource == ReportDataSource.StoredProcedure)
+            {
+                IDictionary<Tuple<ParameterType, string>, object> data = config.StoredProcedureParameters.Select(p =>
+                    new KeyValuePair<Tuple<ParameterType, string>, object>(new Tuple<ParameterType, string>(ParameterType.StoredProcedure, p.ParameterName),
+                                                                           p.ParameterValue)).ToDictionary(item => item.Key, item => item.Value);
+                model.Parameters = data;
+            }
+            else
+            {
+                // todo : fill, via aggregate dictionaries
+            }
+            return PartialView("Modals/SetParametersModal", model);
         }
 
         [HttpGet]
