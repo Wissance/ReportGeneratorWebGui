@@ -54,7 +54,18 @@ namespace ReportGeneratorWeb.Controllers
             }
             else
             {
-                // todo : fill, via aggregate dictionaries
+                IDictionary<Tuple<ParameterType, string>, object> whereParams = config.ViewParameters.WhereParameters.Select(p =>
+                    new KeyValuePair<Tuple<ParameterType, string>, object>(new Tuple<ParameterType, string>(ParameterType.Where, p.ParameterName),
+                        p.ParameterValue)).ToDictionary(item => item.Key, item => item.Value);
+                IDictionary<Tuple<ParameterType, string>, object> orderParams = config.ViewParameters.OrderByParameters.Select(p =>
+                    new KeyValuePair<Tuple<ParameterType, string>, object>(new Tuple<ParameterType, string>(ParameterType.Order, p.ParameterName),
+                        p.ParameterValue)).ToDictionary(item => item.Key, item => item.Value);
+                IDictionary<Tuple<ParameterType, string>, object> groupParams = config.ViewParameters.GroupByParameters.Select(p =>
+                    new KeyValuePair<Tuple<ParameterType, string>, object>(new Tuple<ParameterType, string>(ParameterType.Group, p.ParameterName),
+                        p.ParameterValue)).ToDictionary(item => item.Key, item => item.Value);
+                IDictionary<Tuple<ParameterType, string>, object> result = new Dictionary<Tuple<ParameterType, string>, object>();
+                result = result.Concat(whereParams).Concat(orderParams).Concat(groupParams).ToDictionary(item => item.Key, item => item.Value);
+                model.Parameters = result;
             }
             return PartialView("Modals/SetParametersModal", model);
         }
