@@ -51,6 +51,7 @@ namespace ReportGeneratorWeb.Controllers
                     new KeyValuePair<Tuple<ParameterType, string>, object>(new Tuple<ParameterType, string>(ParameterType.StoredProcedure, p.ParameterName),
                                                                            p.ParameterValue)).ToDictionary(item => item.Key, item => item.Value);
                 model.Parameters = data;
+                model.IsStoredProcedure = true;
             }
             else
             {
@@ -66,6 +67,7 @@ namespace ReportGeneratorWeb.Controllers
                 IDictionary<Tuple<ParameterType, string>, object> result = new Dictionary<Tuple<ParameterType, string>, object>();
                 result = result.Concat(whereParams).Concat(orderParams).Concat(groupParams).ToDictionary(item => item.Key, item => item.Value);
                 model.Parameters = result;
+                model.IsStoredProcedure = false;
             }
             return PartialView("Modals/SetParametersModal", model);
         }

@@ -29,5 +29,6 @@ namespace ReportGeneratorWeb.Models
 
         public string ParametersFile { get; set; }
         public IDictionary<Tuple<ParameterType, string>, object> Parameters { get; set; }
+        public bool IsStoredProcedure { get; set; }
     }
 }
