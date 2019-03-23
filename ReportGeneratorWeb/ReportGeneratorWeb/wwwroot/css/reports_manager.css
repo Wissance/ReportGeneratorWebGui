@@ -123,11 +123,16 @@ label#data-source-type-label {
     margin-top: 7px;
 }
 
-/*div.data-source-group {
+div.modal-header-group {
     display: flex;
     flex-direction: row;
-    padding: 0;
-}*/
+}
+
+div.modal-close-button {
+    margin: 0;
+    width: 20px;
+    height: 20px;
+}
 
 div.data-source-cell-item {
     padding: 0;
