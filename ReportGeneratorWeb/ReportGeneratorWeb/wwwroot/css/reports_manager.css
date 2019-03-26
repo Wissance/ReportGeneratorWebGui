@@ -130,8 +130,9 @@ div.modal-header-group {
 
 div.modal-close-button {
     margin: 0;
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
+    padding: 0;
 }
 
 div.data-source-cell-item {
@@ -160,4 +161,9 @@ input#data-source-conn-str {
 
 div.report-gen-row {
     /*height: 40px;*/
+}
+
+input.modal-param-value-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; 
 }

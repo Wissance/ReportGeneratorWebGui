@@ -4,16 +4,18 @@
 @model ReportGeneratorWeb.Models.ParametersModel
 @{
     ViewBag.Title = $"Установка значений параметров для файла параметров: {Model.ParametersFile}";
+    ViewBag.Parameters = @Model;
     Layout = "~/Views/_Layout.cshtml";
 }
 
 <div class="modal-content">
     <div class="modal-header modal-header-group">
-        <button style="margin: 0; width: 20px; height: 20px;"type="button" 
-                class="btn btn-outline-dark close modal-dialog-button modal-close-button" 
-                data-dismiss="modal"><i class="fas fa-times"></i></button>
-        <!--todo: umv: should mention ParamsFile, StoredProc/View type and name-->
-        <h5 class="modal-title">@ViewBag.Title</h5>
+        <button style="margin: 0; width: 20px; height: 20px; padding: 0;"type="button"
+                class="btn btn-outline-dark close modal-dialog-button modal-close-button"
+                data-dismiss="modal">
+            <i class="fas fa-times"></i>
+        </button>
+        <h6 class="modal-title"><b>@ViewBag.Title</b></h6>
     </div>
     <div class="modal-body">
         <form>
@@ -33,7 +35,10 @@
                         <tr>
                             <!-- <th scope="row">@rowNumber</th>-->
                             <td>@parameter.Key.Item2</td>
-                            <td>@parameter.Value.ToString()</td>
+                            <td>
+                                @Html.TextBox($"{@parameter.Key.Item2}_{@parameter.Key.Item1}", @parameter.Value.ToString(),
+                                              new {@class= "form-control modal-param-value-input", id="" })
+                            </td>
                         </tr>
                         }
                     }
