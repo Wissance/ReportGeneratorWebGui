@@ -23,10 +23,11 @@
             <div>
                 <table class="table table-bordered">
                     <thead>
-                    <tr>
-                        <th scope="col">Имя параметра:</th>
-                        <th scope="col">Значение:</th>
-                    </tr>
+                        <tr>
+                            <th scope="col">Имя параметра:</th>
+                            <th scope="col">Вид параметра:</th>
+                            <th scope="col">Значение:</th>
+                        </tr>
                     </thead>
                     <tbody>
                     @{
@@ -34,9 +35,11 @@
                         foreach (KeyValuePair<Tuple<ParameterType, string>, object> parameter in Model.Parameters)
                         {
                             string keyId = $"param-key-{colNumber}";
+                            string typeId = $"param-type-{colNumber}";
                             string valueId = $"param-value-{colNumber}";
                             <tr>
                                 <td id = "@keyId">@parameter.Key.Item2</td>
+                                <td id = "@typeId">@parameter.Key.Item1</td>
                                 <td>
                                     @Html.TextBox($"{@parameter.Key.Item2}_{@parameter.Key.Item1}", @parameter.Value.ToString(),
                                         new {@class= "form-control modal-param-value-input", id=valueId })
@@ -69,12 +72,14 @@
         for (var p in parameters) {
             var valueEditId = "#param-value-" + paramNumber;
             var keyId = "#param-key-" + paramNumber;
+            var typeId = "#param-type-" + paramNumber;
 
             var key = $(keyId).text();
+            var type = $(typeId).text();
             var value = $(valueEditId).val();
             console.log("save parameter: " + key + ", value: " + value);
-            paramNumber++;
             // parameters.push(p);
+            paramNumber++;
         }
     });
 </script>
