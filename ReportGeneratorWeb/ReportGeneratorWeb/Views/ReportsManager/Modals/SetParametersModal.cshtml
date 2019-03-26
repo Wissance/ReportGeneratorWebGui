@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Mvc.Rendering
+﻿@using System.Security.AccessControl
+@using Microsoft.AspNetCore.Mvc.Rendering
 @using ReportGeneratorWeb.Models
 
 @model ReportGeneratorWeb.Models.ParametersModel
@@ -29,17 +30,19 @@
                     </thead>
                     <tbody>
                     @{
-                        int rowNumber = 1;
+                        int colNumber = 1;
                         foreach (KeyValuePair<Tuple<ParameterType, string>, object> parameter in Model.Parameters)
                         {
+                            string keyId = $"param-key-{colNumber}";
+                            string valueId = $"param-value-{colNumber}";
                             <tr>
-                                <!-- <th scope="row">@rowNumber</th>-->
-                                <td>@parameter.Key.Item2</td>
+                                <td id = "@keyId">@parameter.Key.Item2</td>
                                 <td>
                                     @Html.TextBox($"{@parameter.Key.Item2}_{@parameter.Key.Item1}", @parameter.Value.ToString(),
-                                        new {@class= "form-control modal-param-value-input", id="" })
+                                        new {@class= "form-control modal-param-value-input", id=valueId })
                                 </td>
                             </tr>
+                            colNumber++;
                         }
                     }
                     </tbody>
@@ -58,7 +61,20 @@
 </div>
 
 <script type="text/javascript">
+    var parametersModel = @Html.Raw(Json.Serialize((Model)));
+    var parameters = [];
     $("#apply-parameters").click(function() {
-        
-    })
+        var parameters = parametersModel.parameters;
+        var paramNumber = 1;
+        for (var p in parameters) {
+            var valueEditId = "#param-value-" + paramNumber;
+            var keyId = "#param-key-" + paramNumber;
+
+            var key = $(keyId).text();
+            var value = $(valueEditId).val();
+            console.log("save parameter: " + key + ", value: " + value);
+            paramNumber++;
+            // parameters.push(p);
+        }
+    });
 </script>
