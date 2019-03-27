@@ -5,3 +5,17 @@ support for En too. By default i copied all params file (.xml) and one template 
 
 Screnshoots of how it looks:
 
+1. Choose using parameters and Excel template files:
+
+https://github.com/EvilLord666/ReportGeneratorWebGui/blob/master/img/list-of-files.png
+
+2. Run parameters set or not
+
+https://github.com/EvilLord666/ReportGeneratorWebGui/blob/master/img/set-params.png
+
+3. Click OK. In previous View properly set:
+
+- Data Source and Data source Type.
+- Excel files positions: worksheet, start row and column (Excel numbers starts from 1)
+
+4. Click Generate, receive .xlsx file with data
