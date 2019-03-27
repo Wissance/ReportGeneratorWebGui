@@ -21,7 +21,7 @@
     <div class="modal-body">
         <form>
             <div>
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="params-table">
                     <thead>
                         <tr>
                             <th scope="col">Имя параметра:</th>
@@ -64,12 +64,11 @@
 </div>
 
 <script type="text/javascript">
-    var parametersModel = @Html.Raw(Json.Serialize((Model)));
-    var parameters = [];
+    // var parametersModel = @Html.Raw(Json.Serialize((Model)));
+    var processedParameters = [];
     $("#apply-parameters").click(function() {
-        var parameters = parametersModel.parameters;
-        var paramNumber = 1;
-        for (var p in parameters) {
+        var table = $("#params-table")[0];
+        for (var paramNumber = 1; paramNumber < table.rows.length; paramNumber++) {
             var valueEditId = "#param-value-" + paramNumber;
             var keyId = "#param-key-" + paramNumber;
             var typeId = "#param-type-" + paramNumber;
@@ -78,8 +77,9 @@
             var type = $(typeId).text();
             var value = $(valueEditId).val();
             console.log("save parameter: " + key + ", value: " + value);
-            // parameters.push(p);
-            paramNumber++;
+            processedParameters.push({type: type, key: key, value: value});
         }
+
+        $("#set-params-modal").modal("hide");
     });
 </script>
