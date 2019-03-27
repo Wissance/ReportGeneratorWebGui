@@ -66,6 +66,7 @@
 <script type="text/javascript">
     // var parametersModel = @Html.Raw(Json.Serialize((Model)));
     var processedParameters = [];
+    // todo: on activate use processedParameters if values were set, otherwise model
     $("#apply-parameters").click(function() {
         var table = $("#params-table")[0];
         for (var paramNumber = 1; paramNumber < table.rows.length; paramNumber++) {
@@ -80,6 +81,7 @@
             processedParameters.push({type: type, key: key, value: value});
         }
 
+        $("#form-selected-params").val(JSON.stringify(processedParameters));
         $("#set-params-modal").modal("hide");
     });
 </script>

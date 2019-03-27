@@ -122,14 +122,15 @@
 
     <div class="row">
         @{
-            using (Html.BeginForm("GenerateReport", "ReportsManager", FormMethod.Get, new { @class = "form-inline" }))
+            using (Html.BeginForm("GenerateReport", "ReportsManager", FormMethod.Post, new { @class = "form-inline" }))
             {
                 // make here hidden fields
                 @Html.Hidden("dataSourceType", "", new { id = "form-selected-data-source-type" })
                 @Html.Hidden("dataSourceConnStr", "", new { id = "form-selected-data-source-conn-str" })
                 @Html.Hidden("parametersFile", "", new { id = "form-selected-param-file" })
                 @Html.Hidden("templateFile", "", new { id = "form-selected-template-file" })
-                // todo: UMV: pass DataSourceType, DataSource, Parameters Values
+                @Html.Hidden("parameters", "", new {id = "form-selected-params"})
+                // todo: UMV: Parameters Values
 
                 // following shoud be placed inside form group
                 // worksheet
