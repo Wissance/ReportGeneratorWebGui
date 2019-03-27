@@ -106,6 +106,33 @@ namespace ReportGeneratorWeb.Controllers
             IReportGeneratorManager manager = new ExcelReportGeneratorManager(_loggerFactory, dataSourceDbEngine.Key, dataSourceConnStr);
             string reportFile = GetExcelFilePath("Report", Guid.NewGuid());
             ExecutionConfig config = ExecutionConfigManager.Read(Path.Combine(pathSearchConfig.ParametersFilesDirectory, parametersFile));
+            if (parameters != null && parameters.Length > 0)
+            {
+                if (config.DataSource == ReportDataSource.StoredProcedure)
+                {
+                    foreach (ParameterInfoModel parameter in parameters)
+                    {
+                        StoredProcedureParameter existingStoreProcParam = config.StoredProcedureParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Key.ToLower()));
+                        if (existingStoreProcParam != null)
+                            existingStoreProcParam.ParameterValue = parameter.Value;
+                    }
+                }
+                else
+                {
+                    foreach (ParameterInfoModel parameter in parameters)
+                    {
+                        DbQueryParameter sqlStatementPrameter = null;
+                        if (parameter.Type == ParameterType.Where)
+                            sqlStatementPrameter = config.ViewParameters.WhereParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Key.ToLower()));
+                        if (parameter.Type == ParameterType.Order)
+                            sqlStatementPrameter = config.ViewParameters.OrderByParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Key.ToLower()));
+                        if (parameter.Type == ParameterType.Group)
+                            sqlStatementPrameter = config.ViewParameters.GroupByParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Key.ToLower()));
+                        if (sqlStatementPrameter != null)
+                            sqlStatementPrameter.ParameterValue = parameter.Value.ToString();
+                    }
+                }
+            }
             bool result = await manager.GenerateAsync(Path.Combine(pathSearchConfig.TemplatesFilesDirectory, templateFile), config, reportFile,
                 ExcelReportGeneratorHelper.CreateParameters(worksheet, row, column));
             if (result)
