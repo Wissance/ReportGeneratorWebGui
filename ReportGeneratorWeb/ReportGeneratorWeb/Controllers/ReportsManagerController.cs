@@ -99,7 +99,7 @@ namespace ReportGeneratorWeb.Controllers
         public async Task<IActionResult> Generate([FromQuery] string dataSourceType, [FromQuery] string dataSourceConnStr,
                                                   [FromQuery] string parametersFile, [FromQuery] string templateFile, 
                                                   [FromQuery] int worksheet, [FromQuery] int row, [FromQuery] int column,
-                                                  [FromBody] object parameters)
+                                                  [FromBody] ParameterInfoModel[] parameters)
         {
             ReportsAutoDiscoveryConfigModel pathSearchConfig = GetAutoDiscoveryConfig();
             KeyValuePair<DbEngine, string> dataSourceDbEngine = _availableDataSources.First(item => string.Equals(item.Value.Trim().ToLower(), dataSourceType.Trim().ToLower()));

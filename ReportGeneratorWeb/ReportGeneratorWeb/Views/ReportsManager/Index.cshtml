@@ -277,14 +277,14 @@
         var column = $("#column-form-item").val();
         var url = "ReportsManager/Generate/" +
             "?dataSourceType=" + dataSourceType +
-            "&dataSource=" + dataSource +
+            "&dataSourceConnStr=" + dataSource +
             "&parametersFile=" + paramFile +
             "&templateFile=" + templateFile +
             "&worksheet=" + worksheet +
             "&row=" + row +
             "&column=" + column;
         // var url = "ReportsManager/Generate";
-        var data = JSON.stringify($("#form-selected-params").val());//$("#form-selected-params").val();
+        var data = $("#form-selected-params").val();//$("#form-selected-params").val();
 
         $.ajax({
             method: "POST",
