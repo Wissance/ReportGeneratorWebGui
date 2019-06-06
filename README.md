@@ -7,11 +7,12 @@ Screnshoots of how it looks:
 
 1. Choose using parameters and Excel template files:
 
-https://github.com/EvilLord666/ReportGeneratorWebGui/blob/master/img/list-of-files.png
+![Choose params ant template file](https://github.com/EvilLord666/ReportGeneratorWebGui/blob/master/img/list-of-files.png)
 
 2. Run parameters set or not
 
-https://github.com/EvilLord666/ReportGeneratorWebGui/blob/master/img/set-params.png
+
+![Set params values](https://github.com/EvilLord666/ReportGeneratorWebGui/blob/master/img/set-params.png)
 
 3. Click OK. In previous View properly set:
 
