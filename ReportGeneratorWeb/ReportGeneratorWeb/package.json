@@ -10,7 +10,7 @@
         "gulp-concat": "2.6.1",
         "gulp-cssmin": "0.2.0",
         "gulp-uglify": "3.0.0",
-        "jquery": "3.3.1",
+        "jquery": "3.5.0",
         "rimraf": "2.6.2"
     }
 }
