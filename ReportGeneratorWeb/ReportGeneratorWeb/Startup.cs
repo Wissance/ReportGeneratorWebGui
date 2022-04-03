@@ -46,7 +46,7 @@ namespace ReportGeneratorWeb
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
+                //app.UseBrowserLink(); // https://kmatyaszek.github.io/2020/02/29/how-to-enable-browser-link-in-aspnetcore3-app.html
             }
             else
             {
