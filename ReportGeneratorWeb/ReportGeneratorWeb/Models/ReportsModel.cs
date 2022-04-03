@@ -9,7 +9,7 @@ namespace ReportGeneratorWeb.Models
         {
             ParametersFiles = new List<ReportParametersInfoModel>();
             TemplatesFiles = new List<string>();
-            AutodiscoveryConfig = new ReportsAutoDiscoveryConfigModel();
+            AutoDiscoveryConfig = new ReportsAutoDiscoveryConfigModel();
             AvailableDataSources = new Dictionary<DbEngine, string>();
         }
 
@@ -18,13 +18,13 @@ namespace ReportGeneratorWeb.Models
         {
             ParametersFiles = parametersFiles;
             TemplatesFiles = templateFiles;
-            AutodiscoveryConfig = config;
+            AutoDiscoveryConfig = config;
             AvailableDataSources = availableDataSources;
         }
 
-        public ReportsAutoDiscoveryConfigModel AutodiscoveryConfig { get; private set; }
-        public IList<ReportParametersInfoModel> ParametersFiles { get; private set; }
-        public IList<string> TemplatesFiles { get; private set; }
-        public IDictionary<DbEngine, string> AvailableDataSources { get; private set; }
+        public ReportsAutoDiscoveryConfigModel AutoDiscoveryConfig { get; }
+        public IList<ReportParametersInfoModel> ParametersFiles { get; }
+        public IList<string> TemplatesFiles { get; }
+        public IDictionary<DbEngine, string> AvailableDataSources { get; }
     }
 }
