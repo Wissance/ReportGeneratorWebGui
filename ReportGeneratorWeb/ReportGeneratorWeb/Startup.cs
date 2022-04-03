@@ -19,9 +19,6 @@ namespace ReportGeneratorWeb
     {
         public Startup(IHostingEnvironment environment)
         {
-            //Configuration = configuration;
-            // Configuration = configuration;
-            // string configurationFiles = $"appsettings.json, appsettings.{environment.EnvironmentName}.json";
             Configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json")
                                                       .AddJsonFile($"appsettings.{environment.EnvironmentName}.json")
                                                       .Build();
@@ -32,6 +29,7 @@ namespace ReportGeneratorWeb
         {
             // 1. MVC
             services.AddMvc();
+            services.AddControllers(options => options.EnableEndpointRouting = false);
             // 2. Logging
             services.AddLogging(loggingBuilder => loggingBuilder.AddConfiguration(Configuration).AddConsole());
             services.AddLogging(loggingBuilder => loggingBuilder.AddConfiguration(Configuration).AddDebug());
@@ -63,9 +61,7 @@ namespace ReportGeneratorWeb
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                routes.MapRoute(name: "default", template: "{controller}/{action=Index}/{id?}");
             });
         }
 

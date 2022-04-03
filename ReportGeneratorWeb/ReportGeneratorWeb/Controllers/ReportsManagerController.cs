@@ -134,7 +134,7 @@ namespace ReportGeneratorWeb.Controllers
                 }
             }
             bool result = await manager.GenerateAsync(Path.Combine(pathSearchConfig.TemplatesFilesDirectory, templateFile), config, reportFile,
-                ExcelReportGeneratorHelper.CreateParameters(worksheet, row, column));
+                                                      ExcelReportGeneratorHelper.CreateParameters(worksheet, row, column));
             if (result)
             {
                 byte[] bytes = System.IO.File.ReadAllBytes(reportFile);
