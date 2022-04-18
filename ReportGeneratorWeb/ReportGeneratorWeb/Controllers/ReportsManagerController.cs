@@ -96,21 +96,23 @@ namespace ReportGeneratorWeb.Controllers
         // todo: implement parameters passing
         [Route("ReportsManager/Generate")]
         [HttpPost]
-        public async Task<IActionResult> Generate([FromQuery] string dataSourceType, [FromQuery] string dataSourceConnStr,
+        public async Task<IActionResult> GenerateAsync(/*[FromQuery] string dataSourceType, [FromQuery] string dataSourceConnStr,
                                                   [FromQuery] string parametersFile, [FromQuery] string templateFile, 
                                                   [FromQuery] int worksheet, [FromQuery] int row, [FromQuery] int column,
-                                                  [FromBody] ParameterInfoModel[] parameters)
+                                                  [FromBody] ParameterInfoModel[] parameters*/
+                                                  [FromBody] GenerationModel generation)
         {
             ReportsAutoDiscoveryConfigModel pathSearchConfig = GetAutoDiscoveryConfig();
-            KeyValuePair<DbEngine, string> dataSourceDbEngine = _availableDataSources.First(item => string.Equals(item.Value.Trim().ToLower(), dataSourceType.Trim().ToLower()));
-            IReportGeneratorManager manager = new ExcelReportGeneratorManager(_loggerFactory, dataSourceDbEngine.Key, dataSourceConnStr);
+            KeyValuePair<DbEngine, string> dataSourceDbEngine = _availableDataSources.First(item => string.Equals(item.Value.Trim().ToLower(), 
+                                                                                                                                          generation.DataSourceType.Trim().ToLower()));
+            IReportGeneratorManager manager = new ExcelReportGeneratorManager(_loggerFactory, dataSourceDbEngine.Key, generation.DataSourceConnStr);
             string reportFile = GetExcelFilePath("Report", Guid.NewGuid());
-            ExecutionConfig config = ExecutionConfigManager.Read(Path.Combine(pathSearchConfig.ParametersFilesDirectory, parametersFile));
-            if (parameters != null && parameters.Length > 0)
+            ExecutionConfig config = ExecutionConfigManager.Read(Path.Combine(pathSearchConfig.ParametersFilesDirectory, generation.ParametersFile));
+            if (generation.Parameters != null && generation.Parameters.Length > 0)
             {
                 if (config.DataSource == ReportDataSource.StoredProcedure)
                 {
-                    foreach (ParameterInfoModel parameter in parameters)
+                    foreach (ParameterInfoModel parameter in generation.Parameters)
                     {
                         StoredProcedureParameter existingStoreProcParam = config.StoredProcedureParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Key.ToLower()));
                         if (existingStoreProcParam != null)
@@ -119,7 +121,7 @@ namespace ReportGeneratorWeb.Controllers
                 }
                 else
                 {
-                    foreach (ParameterInfoModel parameter in parameters)
+                    foreach (ParameterInfoModel parameter in generation.Parameters)
                     {
                         DbQueryParameter sqlStatementPrameter = null;
                         if (parameter.Type == ParameterType.Where)
@@ -133,8 +135,10 @@ namespace ReportGeneratorWeb.Controllers
                     }
                 }
             }
-            bool result = await manager.GenerateAsync(Path.Combine(pathSearchConfig.TemplatesFilesDirectory, templateFile), config, reportFile,
-                                                      ExcelReportGeneratorHelper.CreateParameters(worksheet, row, column));
+            bool result = await manager.GenerateAsync(Path.Combine(pathSearchConfig.TemplatesFilesDirectory, generation.TemplateFile), config, reportFile,
+                                                      ExcelReportGeneratorHelper.CreateParameters(generation.OutputFileOptions.Worksheet, 
+                                                                                                  generation.OutputFileOptions.Row,
+                                                                                                  generation.OutputFileOptions.Column));
             if (result)
             {
                 byte[] bytes = System.IO.File.ReadAllBytes(reportFile);
