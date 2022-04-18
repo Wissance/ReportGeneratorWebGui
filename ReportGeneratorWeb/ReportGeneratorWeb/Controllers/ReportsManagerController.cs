@@ -74,10 +74,10 @@ namespace ReportGeneratorWeb.Controllers
         }
 
         [HttpGet("ReportsManager/GetParamsFile")]
-        public IActionResult GetParamsFile([FromQuery] string parameteresFileName)
+        public IActionResult GetParamsFile([FromQuery] string parametersFileName)
         {
             ReportsAutoDiscoveryConfigModel config = GetAutoDiscoveryConfig();
-            FileContentResult result = GetFile(parameteresFileName, config.ParametersFilesDirectory);
+            FileContentResult result = GetFile(parametersFileName, config.ParametersFilesDirectory);
             if (result == null)
                 return Ok(); // but this is not Ok, 404 should be
             return result;

@@ -30,7 +30,6 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\Converters\" />
     <Folder Include="public\" />
     <Folder Include="wwwroot\files\gen\" />
     <Folder Include="wwwroot\images\" />
