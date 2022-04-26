@@ -48,26 +48,25 @@ namespace ReportGeneratorWeb.Controllers
             model.ParametersFile = parametersFile;
             if (config.DataSource == ReportDataSource.StoredProcedure)
             {
-                IDictionary<Tuple<ParameterType, string>, object> data = config.StoredProcedureParameters.Select(p =>
-                    new KeyValuePair<Tuple<ParameterType, string>, object>(new Tuple<ParameterType, string>(ParameterType.StoredProcedure, p.ParameterName),
-                                                                           p.ParameterValue)).ToDictionary(item => item.Key, item => item.Value);
+                IList<ParameterValueModel> data = config.StoredProcedureParameters.Select(p =>
+                    new ParameterValueModel(ParameterType.StoredProcedure, p.ParameterName, p.ParameterValue)).ToList();
                 model.Parameters = data;
                 model.IsStoredProcedure = true;
             }
             else
             {
-                IDictionary<Tuple<ParameterType, string>, object> whereParams = config.ViewParameters.WhereParameters.Select(p =>
-                    new KeyValuePair<Tuple<ParameterType, string>, object>(new Tuple<ParameterType, string>(ParameterType.Where, p.ParameterName),
-                        p.ParameterValue)).ToDictionary(item => item.Key, item => item.Value);
-                IDictionary<Tuple<ParameterType, string>, object> orderParams = config.ViewParameters.OrderByParameters.Select(p =>
-                    new KeyValuePair<Tuple<ParameterType, string>, object>(new Tuple<ParameterType, string>(ParameterType.Order, p.ParameterName),
-                        p.ParameterValue)).ToDictionary(item => item.Key, item => item.Value);
-                IDictionary<Tuple<ParameterType, string>, object> groupParams = config.ViewParameters.GroupByParameters.Select(p =>
-                    new KeyValuePair<Tuple<ParameterType, string>, object>(new Tuple<ParameterType, string>(ParameterType.Group, p.ParameterName),
-                        p.ParameterValue)).ToDictionary(item => item.Key, item => item.Value);
-                IDictionary<Tuple<ParameterType, string>, object> result = new Dictionary<Tuple<ParameterType, string>, object>();
-                result = result.Concat(whereParams).Concat(orderParams).Concat(groupParams).ToDictionary(item => item.Key, item => item.Value);
-                model.Parameters = result;
+                IList<ParameterValueModel> whereParams = config.ViewParameters.WhereParameters.Select(p =>
+                    new ParameterValueModel(ParameterType.Where, p.ParameterName, p.ParameterValue)).ToList();
+                IList<ParameterValueModel> orderParams = config.ViewParameters.OrderByParameters.Select(p =>
+                    new ParameterValueModel(ParameterType.Order, p.ParameterName, p.ParameterValue)).ToList();
+                IList<ParameterValueModel> groupParams = config.ViewParameters.GroupByParameters.Select(p =>
+                    new ParameterValueModel(ParameterType.Group, p.ParameterName, p.ParameterValue)).ToList();
+                List<ParameterValueModel> parameters = new List<ParameterValueModel>();
+                parameters.AddRange(whereParams);
+                parameters.AddRange(orderParams);
+                parameters.AddRange(groupParams);
+                //result = result.Concat(whereParams).Concat(orderParams).Concat(groupParams).ToDictionary(item => item.Key, item => item.Value);
+                model.Parameters = parameters;
                 model.IsStoredProcedure = false;
             }
             return PartialView("Modals/SetParametersModal", model);

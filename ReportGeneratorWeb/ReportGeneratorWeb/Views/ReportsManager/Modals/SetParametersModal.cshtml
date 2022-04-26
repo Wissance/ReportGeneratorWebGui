@@ -32,16 +32,16 @@
                     <tbody>
                     @{
                         int colNumber = 1;
-                        foreach (KeyValuePair<Tuple<ParameterType, string>, object> parameter in Model.Parameters)
+                        foreach (ParameterValueModel parameter in Model.Parameters)
                         {
                             string keyId = $"param-key-{colNumber}";
                             string typeId = $"param-type-{colNumber}";
                             string valueId = $"param-value-{colNumber}";
                             <tr>
-                                <td id = "@keyId">@parameter.Key.Item2</td>
-                                <td id = "@typeId">@parameter.Key.Item1</td>
+                                <td id = "@keyId">@parameter.Name</td>
+                                <td id = "@typeId">@parameter.Type</td>
                                 <td>
-                                    @Html.TextBox($"{@parameter.Key.Item2}_{@parameter.Key.Item1}", @parameter.Value.ToString(),
+                                    @Html.TextBox($"{@parameter.Name}_{@parameter.Type}", @parameter.Value.ToString(),
                                         new {@class= "form-control modal-param-value-input", id=valueId })
                                 </td>
                             </tr>

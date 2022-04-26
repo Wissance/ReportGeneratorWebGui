@@ -6,29 +6,22 @@ using System.Threading.Tasks;
 
 namespace ReportGeneratorWeb.Models
 {
-    public enum ParameterType
-    {
-        Where,
-        Order,
-        Group,
-        StoredProcedure
-    }
 
     public class ParametersModel
     {
         public ParametersModel()
         {
-            Parameters = new Dictionary<Tuple<ParameterType, string>, object>();
+            Parameters = new List<ParameterValueModel>();
         }
 
-        public ParametersModel(string parametersFile, IDictionary<Tuple<ParameterType, string>, object> parameters)
+        public ParametersModel(string parametersFile, IList<ParameterValueModel> parameters)
         {
             ParametersFile = parametersFile;
             Parameters = parameters;
         }
 
         public string ParametersFile { get; set; }
-        public IDictionary<Tuple<ParameterType, string>, object> Parameters { get; set; }
+        public IList<ParameterValueModel> Parameters { get; set; }
         public bool IsStoredProcedure { get; set; }
     }
 }
