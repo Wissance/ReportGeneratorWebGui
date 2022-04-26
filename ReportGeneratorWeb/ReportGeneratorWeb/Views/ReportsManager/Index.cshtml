@@ -117,7 +117,7 @@
         </div>
     </div>
     <div class="row report-gen-row">
-        <h6>Генерация отчетов для выбранных файла параметра <b id="selected-4gen-param-file"></b> и шаблона <b id="selected-4gen-template-file"></b> :</h6>
+        <h6>Генерация отчетов для выбранных файлов параметров <b id="selected-4gen-param-file"></b> и шаблона <b id="selected-4gen-template-file"></b> :</h6>
     </div>
 
     <div class="row">
@@ -162,6 +162,14 @@
             <input id="form-selected-template-file" type="hidden" />
             <input id="form-selected-params" type="hidden" />
             <!-- Non hidden forms elements -->
+            <div class="form-group">
+                <label id="report-type-label" class="">Тип отчета:</label>
+                <select id="report-type-item" class="form-control" value="1">
+                    <option value="1">Excel</option>
+                    <option value="2">Csv</option>
+                </select>
+            </div>
+            <!-- These options should be invisible for CSV -->
             <div class="form-group">
                 <label id="worksheet-form-label" class="">Лист Excel:</label>
                 <input type="text" id="worksheet-form-item" class="form-control short-form-item line-form-item" value="1"/>
