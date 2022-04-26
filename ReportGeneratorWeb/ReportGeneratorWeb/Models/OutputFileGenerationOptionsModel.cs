@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 
 namespace ReportGeneratorWeb.Models
 {
-    public class OutputFileGenerationOptions
+    public class OutputFileGenerationOptionsModel
     {
-        public OutputFileGenerationOptions()
+        public OutputFileGenerationOptionsModel()
         {
 
         }
 
-        public OutputFileGenerationOptions(int worksheet, int row, int column)
+        public OutputFileGenerationOptionsModel(int worksheet, int row, int column)
         {
             Worksheet = worksheet;
             Row = row;

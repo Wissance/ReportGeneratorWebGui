@@ -12,7 +12,7 @@ namespace ReportGeneratorWeb.Models
         }
 
         public GenerationModel(string dataSourceType, string dataSourceConnStr, OutputReportType outputType, string parametersFile,
-                               string templateFile, ParameterInfoModel[] parameters, OutputFileGenerationOptions outputFileOptions)
+                               string templateFile, ParameterInfoModel[] parameters, OutputFileGenerationOptionsModel outputFileOptions)
         {
             DataSourceType = dataSourceType;
             DataSourceConnStr = dataSourceConnStr;
@@ -29,6 +29,6 @@ namespace ReportGeneratorWeb.Models
         public string ParametersFile { get; set; }
         public string TemplateFile { get; set; }
         public ParameterInfoModel[] Parameters { get; set; }
-        public OutputFileGenerationOptions OutputFileOptions { get; set; }
+        public OutputFileGenerationOptionsModel OutputFileOptions { get; set; }
     }
 }

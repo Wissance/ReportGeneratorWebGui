@@ -281,15 +281,15 @@
         var body = {
             "DataSourceType": dataSourceType,
             "DataSourceConnStr": dataSource,
-            "OutputReportFile": 1,
+            "OutputType": 1,
             "ParametersFile": paramFile,
             "TemplateFile": templateFile,
             "OutputFileOptions": {
-                "Worksheet": worksheet,
-                "Column": column,
-                "Row": row
+                "Worksheet": parseInt(worksheet),
+                "Column": parseInt(column),
+                "Row": parseInt(row)
             },
-            "Parameters": data
+            "Parameters": []
         };
         var bodyJson = JSON.stringify(body);
         console.log("generate with body" + bodyJson);
