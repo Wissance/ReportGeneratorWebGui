@@ -169,7 +169,7 @@
                     <option value="2">Csv</option>
                 </select>
             </div>
-            <!-- These options should be invisible for CSV -->
+            <!-- todo: umv: These options should be invisible for CSV -->
             <div class="form-group">
                 <label id="worksheet-form-label" class="">Лист Excel:</label>
                 <input type="text" id="worksheet-form-item" class="form-control short-form-item line-form-item" value="1"/>
@@ -283,13 +283,15 @@
         var worksheet = $("#worksheet-form-item").val();
         var row = $("#row-form-item").val();
         var column = $("#column-form-item").val();
+        var outputType = $("#report-type-item").val();
         // we work definitely here ...
         var url = "ReportsManager/Generate";
         var data = $("#form-selected-params").val();
+        var parameters = data != null && data.length > 0 ? JSON.parse(data) : [];
         var body = {
             "DataSourceType": dataSourceType,
             "DataSourceConnStr": dataSource,
-            "OutputType": 1,
+            "OutputType": parseInt(outputType),
             "ParametersFile": paramFile,
             "TemplateFile": templateFile,
             "OutputFileOptions": {
@@ -297,7 +299,7 @@
                 "Column": parseInt(column),
                 "Row": parseInt(row)
             },
-            "Parameters": JSON.parse(data)
+            "Parameters": parameters 
         };
         var bodyJson = JSON.stringify(body);
         console.log("generate with body" + bodyJson);
