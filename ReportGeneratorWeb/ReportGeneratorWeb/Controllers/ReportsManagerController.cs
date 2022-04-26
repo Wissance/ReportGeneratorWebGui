@@ -106,24 +106,24 @@ namespace ReportGeneratorWeb.Controllers
             {
                 if (config.DataSource == ReportDataSource.StoredProcedure)
                 {
-                    foreach (ParameterInfoModel parameter in generation.Parameters)
+                    foreach (ParameterValueModel parameter in generation.Parameters)
                     {
-                        StoredProcedureParameter existingStoreProcParam = config.StoredProcedureParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Key.ToLower()));
+                        StoredProcedureParameter existingStoreProcParam = config.StoredProcedureParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Name.ToLower()));
                         if (existingStoreProcParam != null)
                             existingStoreProcParam.ParameterValue = parameter.Value;
                     }
                 }
                 else
                 {
-                    foreach (ParameterInfoModel parameter in generation.Parameters)
+                    foreach (ParameterValueModel parameter in generation.Parameters)
                     {
                         DbQueryParameter sqlStatementPrameter = null;
                         if (parameter.Type == ParameterType.Where)
-                            sqlStatementPrameter = config.ViewParameters.WhereParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Key.ToLower()));
+                            sqlStatementPrameter = config.ViewParameters.WhereParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Name.ToLower()));
                         if (parameter.Type == ParameterType.Order)
-                            sqlStatementPrameter = config.ViewParameters.OrderByParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Key.ToLower()));
+                            sqlStatementPrameter = config.ViewParameters.OrderByParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Name.ToLower()));
                         if (parameter.Type == ParameterType.Group)
-                            sqlStatementPrameter = config.ViewParameters.GroupByParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Key.ToLower()));
+                            sqlStatementPrameter = config.ViewParameters.GroupByParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Name.ToLower()));
                         if (sqlStatementPrameter != null)
                             sqlStatementPrameter.ParameterValue = parameter.Value.ToString();
                     }

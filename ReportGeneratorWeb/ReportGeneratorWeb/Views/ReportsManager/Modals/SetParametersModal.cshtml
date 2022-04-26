@@ -34,11 +34,11 @@
                         int colNumber = 1;
                         foreach (ParameterValueModel parameter in Model.Parameters)
                         {
-                            string keyId = $"param-key-{colNumber}";
+                            string nameId = $"param-name-{colNumber}";
                             string typeId = $"param-type-{colNumber}";
                             string valueId = $"param-value-{colNumber}";
                             <tr>
-                                <td id = "@keyId">@parameter.Name</td>
+                                <td id = "@nameId">@parameter.Name</td>
                                 <td id = "@typeId">@parameter.Type</td>
                                 <td>
                                     @Html.TextBox($"{@parameter.Name}_{@parameter.Type}", @parameter.Value.ToString(),
@@ -64,24 +64,59 @@
 </div>
 
 <script type="text/javascript">
+    // ************************************** GLOBAL VARS BLOCK (CONSTS) ****************************************/
+    var whereParamTypeValue = 1;
+    var orderByParamTypeValue = 2;
+    var groupByParamTypeValue = 3;
+    var storedProcedureParamTypeValue = 4;
+    // **********************************************************************************************************/
+    // *************************************** GUI HANDLER FUNCTION BLOCK ***************************************/
     // var parametersModel = @Html.Raw(Json.Serialize((Model)));
-    var processedParameters = [];
+    var processedParametersValues = [];
     // todo: on activate use processedParameters if values were set, otherwise model
+    // todo: convert parameter type && define if parameters related to stored procedure
     $("#apply-parameters").click(function() {
         var table = $("#params-table")[0];
+        var isStoredProcedure = false;
         for (var paramNumber = 1; paramNumber < table.rows.length; paramNumber++) {
             var valueEditId = "#param-value-" + paramNumber;
-            var keyId = "#param-key-" + paramNumber;
+            var nameId = "#param-name-" + paramNumber;
             var typeId = "#param-type-" + paramNumber;
 
-            var key = $(keyId).text();
-            var type = $(typeId).text();
+            var name = $(nameId).text();
+            var type = convertParameterTypeToInt($(typeId).text());
             var value = $(valueEditId).val();
-            console.log("save parameter: " + key + ", value: " + value);
-            processedParameters.push({type: type, key: key, value: value});
+            console.log("save parameter: " + name + ", value: " + value);
+            processedParametersValues.push({ Type: type, Name: name, Value: value });
+            //if (type === storedProcedureParamTypeValue)
+            //    isStoredProcedure = true;
         }
 
-        $("#form-selected-params").val(JSON.stringify(processedParameters));
+        /*var assignedParameters = {
+            Parameters: processedParametersValues,
+            ParametersFile: "",
+            IsStoredProcedure: isStoredProcedure
+        }*/
+
+        $("#form-selected-params").val(JSON.stringify(processedParametersValues));
         $("#set-params-modal").modal("hide");
     });
+    // **********************************************************************************************************/
+    // ***************************************** SERVICE FUNCTION BLOCK *****************************************/
+    function convertParameterTypeToInt(typeValue) {
+        switch (typeValue.toLowerCase()) {
+            case "storedprocedure":
+                return storedProcedureParamTypeValue;
+            case "where":
+                return whereParamTypeValue;
+            case "order":
+                return orderByParamTypeValue;
+            case "group":
+                return groupByParamTypeValue;
+            
+            default:
+                return -1;
+        }
+    }
+    // **********************************************************************************************************/
 </script>

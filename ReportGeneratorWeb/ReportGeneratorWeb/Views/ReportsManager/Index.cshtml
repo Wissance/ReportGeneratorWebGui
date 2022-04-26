@@ -289,7 +289,7 @@
                 "Column": parseInt(column),
                 "Row": parseInt(row)
             },
-            "Parameters": []
+            "Parameters": JSON.parse(data)
         };
         var bodyJson = JSON.stringify(body);
         console.log("generate with body" + bodyJson);

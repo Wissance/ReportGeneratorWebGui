@@ -14,10 +14,11 @@ namespace ReportGeneratorWeb.Models
             Parameters = new List<ParameterValueModel>();
         }
 
-        public ParametersModel(string parametersFile, IList<ParameterValueModel> parameters)
+        public ParametersModel(string parametersFile, IList<ParameterValueModel> parameters, bool isStoredProcedure)
         {
             ParametersFile = parametersFile;
             Parameters = parameters;
+            IsStoredProcedure = isStoredProcedure;
         }
 
         public string ParametersFile { get; set; }

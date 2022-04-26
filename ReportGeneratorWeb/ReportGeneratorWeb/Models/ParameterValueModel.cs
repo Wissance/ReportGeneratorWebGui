@@ -7,10 +7,10 @@ namespace ReportGeneratorWeb.Models
 {
     public enum ParameterType
     {
-        Where,
-        Order,
-        Group,
-        StoredProcedure
+        Where = 1,
+        Order = 2,
+        Group = 3,
+        StoredProcedure = 4
     }
 
     public class ParameterValueModel
