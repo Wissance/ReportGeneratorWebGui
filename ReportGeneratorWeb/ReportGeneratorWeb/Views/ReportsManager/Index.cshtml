@@ -275,22 +275,31 @@
         var worksheet = $("#worksheet-form-item").val();
         var row = $("#row-form-item").val();
         var column = $("#column-form-item").val();
-        var url = "ReportsManager/Generate/" +
-            "?dataSourceType=" + dataSourceType +
-            "&dataSourceConnStr=" + dataSource +
-            "&parametersFile=" + paramFile +
-            "&templateFile=" + templateFile +
-            "&worksheet=" + worksheet +
-            "&row=" + row +
-            "&column=" + column;
-        // var url = "ReportsManager/Generate";
-        var data = $("#form-selected-params").val();//$("#form-selected-params").val();
+        // we work definitely here ...
+        var url = "ReportsManager/Generate";
+        var data = $("#form-selected-params").val();
+        var body = {
+            "DataSourceType": dataSourceType,
+            "DataSourceConnStr": dataSource,
+            "OutputReportFile": 1,
+            "ParametersFile": paramFile,
+            "TemplateFile": templateFile,
+            "OutputFileOptions": {
+                "Worksheet": worksheet,
+                "Column": column,
+                "Row": row
+            },
+            "Parameters": data
+        };
+        var bodyJson = JSON.stringify(body);
+        console.log("generate with body" + bodyJson);
 
         $.ajax({
             method: "POST",
             url: url,
             contentType: "application/json; charset=UTF-8",
-            data: data,
+            processData: false,
+            data: bodyJson,
             success: function (response) {
                 console.log("received response");
         }});

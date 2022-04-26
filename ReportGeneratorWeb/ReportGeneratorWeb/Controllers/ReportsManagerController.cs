@@ -94,13 +94,8 @@ namespace ReportGeneratorWeb.Controllers
         }
 
         // todo: implement parameters passing
-        [Route("ReportsManager/Generate")]
-        [HttpPost]
-        public async Task<IActionResult> GenerateAsync(/*[FromQuery] string dataSourceType, [FromQuery] string dataSourceConnStr,
-                                                  [FromQuery] string parametersFile, [FromQuery] string templateFile, 
-                                                  [FromQuery] int worksheet, [FromQuery] int row, [FromQuery] int column,
-                                                  [FromBody] ParameterInfoModel[] parameters*/
-                                                  [FromBody] GenerationModel generation)
+        [HttpPost("ReportsManager/Generate")]
+        public async Task<IActionResult> GenerateAsync([FromBody] GenerationModel generation)
         {
             ReportsAutoDiscoveryConfigModel pathSearchConfig = GetAutoDiscoveryConfig();
             KeyValuePair<DbEngine, string> dataSourceDbEngine = _availableDataSources.First(item => string.Equals(item.Value.Trim().ToLower(), 
