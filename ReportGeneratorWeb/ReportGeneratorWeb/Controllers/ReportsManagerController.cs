@@ -109,7 +109,8 @@ namespace ReportGeneratorWeb.Controllers
             if (result)
             {
                 byte[] bytes = await System.IO.File.ReadAllBytesAsync(reportFile);
-                return File(bytes, _expectedMimeTypes[MsExcelExtension], "Report.xlsx");
+                string reportExtension = _reportTypes[generation.OutputType];
+                return File(bytes, _expectedMimeTypes[reportExtension], $"Report{reportExtension}");
             }
             return null;
         }
@@ -137,7 +138,11 @@ namespace ReportGeneratorWeb.Controllers
         private ReportsModel CreateReportsModel()
         {
             ReportsAutoDiscoveryConfigModel autoDiscoveryConfig = GetAutoDiscoveryConfig();
-            IList<string> templatesFiles = GetFiles(autoDiscoveryConfig.TemplatesFilesDirectory, "*" + MsExcelExtension).Select(fi => fi.Name).ToList();
+            List<string> templatesFiles = new List<string>();
+            IList<FileInfo> excelTemplates = GetFiles(autoDiscoveryConfig.TemplatesFilesDirectory, "*" + MsExcelExtension);
+            IList<FileInfo> csvTemplates = GetFiles(autoDiscoveryConfig.TemplatesFilesDirectory, "*" + CsvExtension);
+            templatesFiles.AddRange(excelTemplates.Select(fi => fi.Name));
+            templatesFiles.AddRange(csvTemplates.Select(fi => fi.Name));
             IList<FileInfo> parametersFiles = GetFiles(autoDiscoveryConfig.ParametersFilesDirectory, "*" + XmlExtension);
             IList<ReportParametersInfoModel> parameters = parametersFiles.Select(CreateParametersModel).ToList();
             return new ReportsModel(parameters, templatesFiles, autoDiscoveryConfig, _availableDataSources);
