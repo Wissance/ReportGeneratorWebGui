@@ -33,14 +33,14 @@ namespace ReportGeneratorWeb.Controllers
 
         [HttpGet("ReportsManager")]
         [HttpGet("ReportsManager/Index")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> IndexAsync()
         {
             ReportsModel model = CreateReportsModel();
             return View(model);
         }
 
         [HttpGet("ReportsManager/SetParameters")]
-        public async Task<IActionResult> SetParameters([FromQuery] string parametersFile)
+        public async Task<IActionResult> SetParametersAsync([FromQuery] string parametersFile)
         {
             ReportsAutoDiscoveryConfigModel pathSearchConfig = GetAutoDiscoveryConfig();
             ExecutionConfig config = ExecutionConfigManager.Read(Path.Combine(pathSearchConfig.ParametersFilesDirectory, parametersFile));
