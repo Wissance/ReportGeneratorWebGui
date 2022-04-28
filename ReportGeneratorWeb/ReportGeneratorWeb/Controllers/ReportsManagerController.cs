@@ -35,7 +35,7 @@ namespace ReportGeneratorWeb.Controllers
         [HttpGet("ReportsManager/Index")]
         public IActionResult Index()
         {
-            ReportsModel model = CreateModel();
+            ReportsModel model = CreateReportsModel();
             return View(model);
         }
 
@@ -99,43 +99,16 @@ namespace ReportGeneratorWeb.Controllers
             ReportsAutoDiscoveryConfigModel pathSearchConfig = GetAutoDiscoveryConfig();
             KeyValuePair<DbEngine, string> dataSourceDbEngine = _availableDataSources.First(item => string.Equals(item.Value.Trim().ToLower(), 
                                                                                                                                           generation.DataSourceType.Trim().ToLower()));
-            IReportGeneratorManager manager = new ExcelReportGeneratorManager(_loggerFactory, dataSourceDbEngine.Key, generation.DataSourceConnStr);
-            string reportFile = GetExcelFilePath("Report", Guid.NewGuid());
-            ExecutionConfig config = ExecutionConfigManager.Read(Path.Combine(pathSearchConfig.ParametersFilesDirectory, generation.ParametersFile));
-            if (generation.Parameters != null && generation.Parameters.Length > 0)
-            {
-                if (config.DataSource == ReportDataSource.StoredProcedure)
-                {
-                    foreach (ParameterValueModel parameter in generation.Parameters)
-                    {
-                        StoredProcedureParameter existingStoreProcParam = config.StoredProcedureParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Name.ToLower()));
-                        if (existingStoreProcParam != null)
-                            existingStoreProcParam.ParameterValue = parameter.Value;
-                    }
-                }
-                else
-                {
-                    foreach (ParameterValueModel parameter in generation.Parameters)
-                    {
-                        DbQueryParameter sqlStatementPrameter = null;
-                        if (parameter.Type == ParameterType.Where)
-                            sqlStatementPrameter = config.ViewParameters.WhereParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Name.ToLower()));
-                        if (parameter.Type == ParameterType.Order)
-                            sqlStatementPrameter = config.ViewParameters.OrderByParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Name.ToLower()));
-                        if (parameter.Type == ParameterType.Group)
-                            sqlStatementPrameter = config.ViewParameters.GroupByParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Name.ToLower()));
-                        if (sqlStatementPrameter != null)
-                            sqlStatementPrameter.ParameterValue = parameter.Value.ToString();
-                    }
-                }
-            }
+            IReportGeneratorManager manager = CreateReportGenerationManager(dataSourceDbEngine.Key, generation.DataSourceConnStr, generation.OutputType);
+            string reportFile = GetReportFilePath("Report", Guid.NewGuid(), generation.OutputType);
+            string parametersFile = Path.Combine(pathSearchConfig.ParametersFilesDirectory, generation.ParametersFile);
+            ExecutionConfig config = CreateExecutionConfig(parametersFile, generation.Parameters);
+
             bool result = await manager.GenerateAsync(Path.Combine(pathSearchConfig.TemplatesFilesDirectory, generation.TemplateFile), config, reportFile,
-                                                      ExcelReportGeneratorHelper.CreateParameters(generation.OutputFileOptions.Worksheet, 
-                                                                                                  generation.OutputFileOptions.Row,
-                                                                                                  generation.OutputFileOptions.Column));
+                                                      CreateOutputGenerationParameters(generation.OutputType, generation.OutputFileOptions));
             if (result)
             {
-                byte[] bytes = System.IO.File.ReadAllBytes(reportFile);
+                byte[] bytes = await System.IO.File.ReadAllBytesAsync(reportFile);
                 return File(bytes, _expectedMimeTypes[MsExcelExtension], "Report.xlsx");
             }
             return null;
@@ -155,17 +128,18 @@ namespace ReportGeneratorWeb.Controllers
             return File(bytes, mimeType.Value, searchingFiles.First().Name);
         }
 
-        private string GetExcelFilePath(string prefixName, Guid fileId)
+        private string GetReportFilePath(string prefixName, Guid fileId, OutputReportType reportType)
         {
-            return Path.Combine(".", $"{prefixName}_{fileId}.xlsx");
+            string reportFileExtension = _reportTypes[reportType];
+            return Path.Combine(".", $"{prefixName}_{fileId}{reportFileExtension}");
         }
 
-        private ReportsModel CreateModel()
+        private ReportsModel CreateReportsModel()
         {
             ReportsAutoDiscoveryConfigModel autoDiscoveryConfig = GetAutoDiscoveryConfig();
             IList<string> templatesFiles = GetFiles(autoDiscoveryConfig.TemplatesFilesDirectory, "*" + MsExcelExtension).Select(fi => fi.Name).ToList();
             IList<FileInfo> parametersFiles = GetFiles(autoDiscoveryConfig.ParametersFilesDirectory, "*" + XmlExtension);
-            IList<ReportParametersInfoModel> parameters = parametersFiles.Select(Create).ToList();
+            IList<ReportParametersInfoModel> parameters = parametersFiles.Select(CreateParametersModel).ToList();
             return new ReportsModel(parameters, templatesFiles, autoDiscoveryConfig, _availableDataSources);
         }
 
@@ -195,12 +169,60 @@ namespace ReportGeneratorWeb.Controllers
             return discoveredFiles;
         }
 
-        private ReportParametersInfoModel Create(FileInfo file)
+        private ReportParametersInfoModel CreateParametersModel(FileInfo file)
         {
             ExecutionConfig config = ExecutionConfigManager.Read(file.FullName);
             string[] fileContent = System.IO.File.ReadAllLines(file.FullName);
             ReportParametersInfoModel parametersInfo = new ReportParametersInfoModel(file.Name, config.DisplayName, config.Description, fileContent);
             return parametersInfo;
+        }
+
+        private IReportGeneratorManager CreateReportGenerationManager(DbEngine dbEngine, string connStr, OutputReportType reportType)
+        {
+            if (reportType == OutputReportType.Excel)
+                return new ExcelReportGeneratorManager(_loggerFactory, dbEngine, connStr);
+            return new CsvReportGeneratorManager(_loggerFactory, dbEngine, connStr, ",");
+        }
+
+        private ExecutionConfig CreateExecutionConfig(string parametersFile, ParameterValueModel[] parameters)
+        {
+            ExecutionConfig config = ExecutionConfigManager.Read(parametersFile);
+            if (parameters != null && parameters.Length > 0)
+            {
+                if (config.DataSource == ReportDataSource.StoredProcedure)
+                {
+                    foreach (ParameterValueModel parameter in parameters)
+                    {
+                        StoredProcedureParameter existingStoreProcParam = config.StoredProcedureParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Name.ToLower()));
+                        if (existingStoreProcParam != null)
+                            existingStoreProcParam.ParameterValue = parameter.Value;
+                    }
+                }
+                else
+                {
+                    foreach (ParameterValueModel parameter in parameters)
+                    {
+                        DbQueryParameter sqlStatementParameter = null;
+                        if (parameter.Type == ParameterType.Where)
+                            sqlStatementParameter = config.ViewParameters.WhereParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Name.ToLower()));
+                        if (parameter.Type == ParameterType.Order)
+                            sqlStatementParameter = config.ViewParameters.OrderByParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Name.ToLower()));
+                        if (parameter.Type == ParameterType.Group)
+                            sqlStatementParameter = config.ViewParameters.GroupByParameters.FirstOrDefault(p => string.Equals(p.ParameterName.ToLower(), parameter.Name.ToLower()));
+                        if (sqlStatementParameter != null)
+                            sqlStatementParameter.ParameterValue = parameter.Value.ToString();
+                    }
+                }
+            }
+
+            return config;
+        }
+
+        private object[] CreateOutputGenerationParameters(OutputReportType reportType, OutputFileGenerationOptionsModel outputOptions)
+        {
+            if (reportType == OutputReportType.Csv)
+                return new object[] { };
+            return ExcelReportGeneratorHelper.CreateParameters(outputOptions.Worksheet, outputOptions.Row, outputOptions.Column);
         }
 
         private const string ParametersSubDirectory = @"files/params";
@@ -209,9 +231,16 @@ namespace ReportGeneratorWeb.Controllers
 
         private const string MsExcelExtension = ".xlsx"; // for 2010+ version of Office
         private const string XmlExtension = ".xml";
+        private const string CsvExtension = ".csv";
 
         private readonly IHostingEnvironment _environment;
         private readonly ILoggerFactory _loggerFactory;
+
+        private readonly IDictionary<OutputReportType, string> _reportTypes = new Dictionary<OutputReportType, string>()
+        {
+            { OutputReportType.Excel, MsExcelExtension },
+            { OutputReportType.Csv, CsvExtension }
+        };
 
         private readonly IDictionary<string, string> _expectedMimeTypes = new Dictionary<string, string>()
         {
