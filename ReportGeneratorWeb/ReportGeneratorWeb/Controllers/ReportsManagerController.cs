@@ -33,14 +33,14 @@ namespace ReportGeneratorWeb.Controllers
 
         [HttpGet("ReportsManager")]
         [HttpGet("ReportsManager/Index")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             ReportsModel model = CreateReportsModel();
             return View(model);
         }
 
         [HttpGet("ReportsManager/SetParameters")]
-        public IActionResult SetParameters([FromQuery] string parametersFile)
+        public async Task<IActionResult> SetParameters([FromQuery] string parametersFile)
         {
             ReportsAutoDiscoveryConfigModel pathSearchConfig = GetAutoDiscoveryConfig();
             ExecutionConfig config = ExecutionConfigManager.Read(Path.Combine(pathSearchConfig.ParametersFilesDirectory, parametersFile));
@@ -73,20 +73,20 @@ namespace ReportGeneratorWeb.Controllers
         }
 
         [HttpGet("ReportsManager/GetParamsFile")]
-        public IActionResult GetParamsFile([FromQuery] string parametersFileName)
+        public async Task<IActionResult> GetParamsFileAsync([FromQuery] string parametersFileName)
         {
             ReportsAutoDiscoveryConfigModel config = GetAutoDiscoveryConfig();
-            FileContentResult result = GetFile(parametersFileName, config.ParametersFilesDirectory);
+            FileContentResult result = await GetFileAsync(parametersFileName, config.ParametersFilesDirectory);
             if (result == null)
                 return Ok(); // but this is not Ok, 404 should be
             return result;
         }
 
         [HttpGet("ReportsManager/GetTemplateFile")]
-        public IActionResult GetTemplateFile([FromQuery] string templateFileName)
+        public async Task<IActionResult> GetTemplateFileAsync([FromQuery] string templateFileName)
         {
             ReportsAutoDiscoveryConfigModel config = GetAutoDiscoveryConfig();
-            FileContentResult result = GetFile(templateFileName, config.TemplatesFilesDirectory);
+            FileContentResult result = await GetFileAsync(templateFileName, config.TemplatesFilesDirectory);
             if (result == null)
                 return Ok(); // but this is not Ok, 404 should be
             return result;
@@ -114,7 +114,7 @@ namespace ReportGeneratorWeb.Controllers
             return null;
         }
 
-        private FileContentResult GetFile(string fileName, string searchPath)
+        private async Task<FileContentResult> GetFileAsync(string fileName, string searchPath)
         {
             if (string.IsNullOrEmpty(fileName) || string.IsNullOrEmpty(searchPath))
                 return null;  // file not found
@@ -124,7 +124,7 @@ namespace ReportGeneratorWeb.Controllers
             IList<FileInfo> searchingFiles = GetFiles(searchPath, fileName); // actually we except one
             if (searchingFiles.Count == 0)
                 return null;
-            byte[] bytes = System.IO.File.ReadAllBytes(searchingFiles.First().FullName);
+            byte[] bytes = await System.IO.File.ReadAllBytesAsync(searchingFiles.First().FullName);
             return File(bytes, mimeType.Value, searchingFiles.First().Name);
         }
 
@@ -245,7 +245,8 @@ namespace ReportGeneratorWeb.Controllers
         private readonly IDictionary<string, string> _expectedMimeTypes = new Dictionary<string, string>()
         {
             { MsExcelExtension, "application/vnd.ms-excel"},
-            { XmlExtension, "application/xml" }
+            { XmlExtension, "application/xml" },
+            { CsvExtension, "text/csv"},
         };
 
         private readonly IDictionary<DbEngine, string> _availableDataSources = new Dictionary<DbEngine, string>()
