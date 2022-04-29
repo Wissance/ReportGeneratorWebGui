@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using DbTools.Core;
 using Microsoft.AspNetCore.Mvc;
@@ -73,28 +74,28 @@ namespace ReportGeneratorWeb.Controllers
         }
 
         [HttpGet("ReportsManager/GetParamsFile")]
-        public async Task<IActionResult> GetParamsFileAsync([FromQuery] string parametersFileName)
+        public async Task<FileContentResult> GetParamsFileAsync([FromQuery] string parametersFileName)
         {
             ReportsAutoDiscoveryConfigModel config = GetAutoDiscoveryConfig();
             FileContentResult result = await GetFileAsync(parametersFileName, config.ParametersFilesDirectory);
             if (result == null)
-                return Ok(); // but this is not Ok, 404 should be
+                return null; // but this is not Ok, 404 should be
             return result;
         }
 
         [HttpGet("ReportsManager/GetTemplateFile")]
-        public async Task<IActionResult> GetTemplateFileAsync([FromQuery] string templateFileName)
+        public async Task<FileContentResult> GetTemplateFileAsync([FromQuery] string templateFileName)
         {
             ReportsAutoDiscoveryConfigModel config = GetAutoDiscoveryConfig();
             FileContentResult result = await GetFileAsync(templateFileName, config.TemplatesFilesDirectory);
             if (result == null)
-                return Ok(); // but this is not Ok, 404 should be
+                return null; // but this is not Ok, 404 should be
             return result;
         }
 
         // todo: implement parameters passing
         [HttpPost("ReportsManager/Generate")]
-        public async Task<IActionResult> GenerateAsync([FromBody] GenerationModel generation)
+        public async Task<FileContentResult> GenerateAsync([FromBody] GenerationModel generation)
         {
             ReportsAutoDiscoveryConfigModel pathSearchConfig = GetAutoDiscoveryConfig();
             KeyValuePair<DbEngine, string> dataSourceDbEngine = _availableDataSources.First(item => string.Equals(item.Value.Trim().ToLower(), 
@@ -110,6 +111,14 @@ namespace ReportGeneratorWeb.Controllers
             {
                 byte[] bytes = await System.IO.File.ReadAllBytesAsync(reportFile);
                 string reportExtension = _reportTypes[generation.OutputType];
+                ContentDisposition content = new ContentDisposition()
+                {
+                    FileName = reportFile,
+                    Inline = false
+                };
+                Response.Headers.Add("Content-Disposition", content.ToString());
+                //return File()
+                // Response.AppendHeader("Content-Disposition", cd.ToString());
                 return File(bytes, _expectedMimeTypes[reportExtension], $"Report{reportExtension}");
             }
             return null;
