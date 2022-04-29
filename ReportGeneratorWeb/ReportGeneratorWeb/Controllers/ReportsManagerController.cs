@@ -93,9 +93,8 @@ namespace ReportGeneratorWeb.Controllers
             return result;
         }
 
-        // todo: implement parameters passing
         [HttpPost("ReportsManager/Generate")]
-        public async Task<FileContentResult> GenerateAsync([FromBody] GenerationModel generation)
+        public async Task<IActionResult> GenerateAsync([FromBody] GenerationModel generation)
         {
             ReportsAutoDiscoveryConfigModel pathSearchConfig = GetAutoDiscoveryConfig();
             KeyValuePair<DbEngine, string> dataSourceDbEngine = _availableDataSources.First(item => string.Equals(item.Value.Trim().ToLower(), 

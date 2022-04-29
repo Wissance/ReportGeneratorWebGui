@@ -302,7 +302,7 @@
             "Parameters": parameters 
         };
         var bodyJson = JSON.stringify(body);
-        console.log("generate with body" + bodyJson);
+        // console.log("generate with body" + bodyJson);
 
         $.ajax({
             method: "POST",
@@ -310,8 +310,20 @@
             contentType: "application/json; charset=UTF-8",
             processData: false,
             data: bodyJson,
-            success: function (response) {
-                console.log("received response");
-        }});
+            success: function (response, textStatus, request) {
+                console.log("received response, downloading ...");
+                // var respHeaders = request.getAllResponseHeaders();
+                var contentType = request.getResponseHeader("content-type");
+                var contentDisposition = request.getResponseHeader("content-disposition");
+                var parts = contentDisposition.split(" ");
+                var fileNamePair = parts[1];
+                var fileNameParts = fileNamePair.split("=");
+                var blob = new Blob([response], { type: contentType });
+                var link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = fileNameParts[1];
+                link.click();
+                URL.revokeObjectURL(link.href);
+            }});
     });
 </script>
