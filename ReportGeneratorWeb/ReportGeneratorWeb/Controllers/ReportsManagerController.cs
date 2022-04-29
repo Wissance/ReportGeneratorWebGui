@@ -116,9 +116,7 @@ namespace ReportGeneratorWeb.Controllers
                     Inline = false
                 };
                 Response.Headers.Add("Content-Disposition", content.ToString());
-                //return File()
-                // Response.AppendHeader("Content-Disposition", cd.ToString());
-                return File(bytes, _expectedMimeTypes[reportExtension], $"Report{reportExtension}");
+                return File(bytes, _expectedMimeTypes[reportExtension], Path.GetFileName(reportFile));
             }
             return null;
         }

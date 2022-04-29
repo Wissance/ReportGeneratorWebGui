@@ -318,10 +318,16 @@
                 var parts = contentDisposition.split(" ");
                 var fileNamePair = parts[1];
                 var fileNameParts = fileNamePair.split("=");
+                var fileNameStatement = fileNameParts[1];
+                // removing trash from filename ...
+                fileNameStatement = fileNameStatement.replace(";", "");
+                fileNameStatement = fileNameStatement.replace("\"", "");
+
+                
                 var blob = new Blob([response], { type: contentType });
                 var link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
-                link.download = fileNameParts[1];
+                link.download = fileNameStatement;
                 link.click();
                 URL.revokeObjectURL(link.href);
             }});
