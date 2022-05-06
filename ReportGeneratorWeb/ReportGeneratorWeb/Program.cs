@@ -10,6 +10,10 @@ using Microsoft.Extensions.Logging;
 
 namespace ReportGeneratorWeb
 {
+    /// <summary>
+    ///    Program entry point
+    ///    Running from cli: .\ReportGeneratorWeb.exe --environment Development or .\ReportGeneratorWeb.exe --environment Production
+    /// </summary>
     public class Program
     {
         public static void Main(string[] args)

@@ -20,7 +20,7 @@ namespace ReportGeneratorWeb.Controllers
 {
     /// <summary>
     ///     Reports manager controller:
-    ///         - displays in Left Panel: List of Params and Tenplates ...
+    ///         - displays in Left Panel: List of Params and Templates ...
     ///         - in center: Preview of Params Files
     ///         - under it link / button 4 report generation
     /// </summary>
