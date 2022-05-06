@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <StartupObject></StartupObject>
@@ -7,12 +7,14 @@
     <AssemblyName>ReportGeneratorWeb</AssemblyName>
     <RootNamespace>ReportGeneratorWeb</RootNamespace>
   </PropertyGroup>
+  <!--
   <ItemGroup>
     <Compile Remove="wwwroot\node_modules\**" />
     <Content Remove="wwwroot\node_modules\**" />
     <EmbeddedResource Remove="wwwroot\node_modules\**" />
     <None Remove="wwwroot\node_modules\**" />
   </ItemGroup>
+  -->
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
@@ -29,16 +31,27 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
+  <!-- Do not undestand what it is for ??? --> 
   <ItemGroup>
     <Folder Include="public\" />
     <Folder Include="wwwroot\files\gen\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="wwwroot\**"
+      CopyToOutputDirectory="PreserveNewest" LinkBase="wwwroot\" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Update="appsettings.Development.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.Productuon.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
