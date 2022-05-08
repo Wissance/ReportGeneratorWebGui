@@ -24,6 +24,8 @@ namespace ReportGeneratorWeb.Controllers
     ///         - in center: Preview of Params Files
     ///         - under it link / button 4 report generation
     /// </summary>
+    [Controller]
+    [Route("[controller]")]
     public class ReportsManagerController : Controller
     {
         public ReportsManagerController(ILoggerFactory loggerFactory, IHostingEnvironment environment)
@@ -32,15 +34,15 @@ namespace ReportGeneratorWeb.Controllers
             _environment = environment;
         }
 
-        [HttpGet("ReportsManager")]
-        [HttpGet("ReportsManager/Index")]
+        [HttpGet("")]
+        [HttpGet("Index/")]
         public async Task<IActionResult> IndexAsync()
         {
             ReportsModel model = CreateReportsModel();
             return View(model);
         }
 
-        [HttpGet("ReportsManager/SetParameters")]
+        [HttpGet("SetParameters/")]
         public async Task<IActionResult> SetParametersAsync([FromQuery] string parametersFile)
         {
             ReportsAutoDiscoveryConfigModel pathSearchConfig = GetAutoDiscoveryConfig();
@@ -73,7 +75,7 @@ namespace ReportGeneratorWeb.Controllers
             return PartialView("Modals/SetParametersModal", model);
         }
 
-        [HttpGet("ReportsManager/GetParamsFile")]
+        [HttpGet("GetParamsFile/")]
         public async Task<FileContentResult> GetParamsFileAsync([FromQuery] string parametersFileName)
         {
             ReportsAutoDiscoveryConfigModel config = GetAutoDiscoveryConfig();
@@ -83,7 +85,7 @@ namespace ReportGeneratorWeb.Controllers
             return result;
         }
 
-        [HttpGet("ReportsManager/GetTemplateFile")]
+        [HttpGet("GetTemplateFile/")]
         public async Task<FileContentResult> GetTemplateFileAsync([FromQuery] string templateFileName)
         {
             ReportsAutoDiscoveryConfigModel config = GetAutoDiscoveryConfig();
@@ -93,7 +95,7 @@ namespace ReportGeneratorWeb.Controllers
             return result;
         }
 
-        [HttpPost("ReportsManager/Generate")]
+        [HttpPost("Generate/")]
         public async Task<IActionResult> GenerateAsync([FromBody] GenerationModel generation)
         {
             ReportsAutoDiscoveryConfigModel pathSearchConfig = GetAutoDiscoveryConfig();

@@ -235,7 +235,7 @@
         var data = {
             parametersFile: $("#form-selected-param-file").val()
         };
-        $.get("ReportsManager/SetParameters", data, function (response) {
+        $.get("SetParameters/", data, function (response) {
             $("#set-params-modal-content").html(response);
             $("#set-params-modal").modal("show");
         });
@@ -252,7 +252,7 @@
         var column = $("#column-form-item").val();
         var outputType = $("#report-type-item").val();
         // we work definitely here ...
-        var url = "ReportsManager/Generate";
+        var url = "Generate/";
         var data = $("#form-selected-params").val();
         var parameters = data != null && data.length > 0 ? JSON.parse(data) : [];
         var body = {
