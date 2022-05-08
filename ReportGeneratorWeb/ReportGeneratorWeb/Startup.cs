@@ -57,10 +57,9 @@ namespace ReportGeneratorWeb
                 app.UseExceptionHandler("/Error");
             }
 
-            //RewriteOptions options = new RewriteOptions();
-            //.AddRedirect("(.*[^/])$/", "$1");
+            RewriteOptions options = new RewriteOptions().AddRedirect("(.*[^/])$", "$1/");
             //.AddRedirectToHttpsPermanent();
-            //app.UseRewriter(options);
+            app.UseRewriter(options);
             app.UseRouting();
             app.UseStaticFiles();
             app.UseFileServer(new FileServerOptions()
