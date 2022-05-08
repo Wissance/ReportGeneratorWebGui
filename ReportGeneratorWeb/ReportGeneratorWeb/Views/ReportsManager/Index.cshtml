@@ -122,71 +122,38 @@
 
     <div class="row">
         @{
-        /*
-            using (Html.BeginForm("GenerateReport", "ReportsManager", FormMethod.Post, new { @class = "form-inline" }))
-            {
-                // make here hidden fields
-                @Html.Hidden("dataSourceType", "", new { id = "form-selected-data-source-type" })
-                @Html.Hidden("dataSourceConnStr", "", new { id = "form-selected-data-source-conn-str" })
-                @Html.Hidden("parametersFile", "", new { id = "form-selected-param-file" })
-                @Html.Hidden("templateFile", "", new { id = "form-selected-template-file" })
-                @Html.Hidden("parameters", "", new {id = "form-selected-params"})
-                // todo: UMV: Parameters Values
-
-                // following shoud be placed inside form group
-                // worksheet
+            <form id="generate-report-form" class="form-inline">
+                <input id="form-selected-data-source-type" type="hidden" />
+                <input id="form-selected-data-source-conn-str" type="hidden" />
+                <input id="form-selected-param-file" type="hidden" />
+                <input id="form-selected-template-file" type="hidden" />
+                <input id="form-selected-params" type="hidden" />
+                <!-- Non hidden forms elements -->
                 <div class="form-group">
-                    @Html.Label("worksheet", "Лист Excel:", new { @class = "", id = "worksheet-form-label" })
-                    @Html.TextBox("worksheet", 1, new { @class = "form-control short-form-item line-form-item", style = "", id = "worksheet-form-item" })
+                    <label id="report-type-label" class="">Тип отчета:</label>
+                    <select id="report-type-item" class="form-control" value="1">
+                        <option value="1">Excel</option>
+                        <option value="2">Csv</option>
+                    </select>
                 </div>
-                // row
+                <!-- todo: umv: These options should be invisible for CSV -->
                 <div class="form-group">
-                    @Html.Label("row", "№ строки:", new { @class = "", id = " row-form-label" })
-                    @Html.TextBox("row", 1, new { @class = "form-control short-form-item line-form-item", style = "", id = "row-form-item" })
+                    <label id="worksheet-form-label" class="">Лист Excel:</label>
+                    <input type="text" id="worksheet-form-item" class="form-control short-form-item line-form-item" value="1"/>
                 </div>
-                // column
                 <div class="form-group">
-                    @Html.Label("column", "№ столбца:", new { @class = "", id = "column-form-label" })
-                    @Html.TextBox("column", 1, new { @class = "form-control short-form-item line-form-item", style = "", id = "column-form-item" })
+                    <label id="row-form-label" class="">№ строки:</label>
+                    <input type="text" id="row-form-item" class="form-control short-form-item line-form-item" value="1"/>
                 </div>
-                // submit
-                <button id="generate-form-submit-btn" type="submit" class="btn btn-outline-dark" disabled>
+                <div class="form-group">
+                    <label id="column-form-label" class="">№ столбца:</label>
+                    <input type="text" id="column-form-item" class="form-control short-form-item line-form-item" value="1"/>
+                </div>
+                <button id="generate-report-btn" type="button" class="btn btn-outline-dark" disabled>
                     <i class="fas fa-bolt"></i>
                     Сгенерировать
                 </button>
-            }*/
-        <form id="generate-report-form" class="form-inline">
-            <input id="form-selected-data-source-type" type="hidden" />
-            <input id="form-selected-data-source-conn-str" type="hidden" />
-            <input id="form-selected-param-file" type="hidden" />
-            <input id="form-selected-template-file" type="hidden" />
-            <input id="form-selected-params" type="hidden" />
-            <!-- Non hidden forms elements -->
-            <div class="form-group">
-                <label id="report-type-label" class="">Тип отчета:</label>
-                <select id="report-type-item" class="form-control" value="1">
-                    <option value="1">Excel</option>
-                    <option value="2">Csv</option>
-                </select>
-            </div>
-            <!-- todo: umv: These options should be invisible for CSV -->
-            <div class="form-group">
-                <label id="worksheet-form-label" class="">Лист Excel:</label>
-                <input type="text" id="worksheet-form-item" class="form-control short-form-item line-form-item" value="1"/>
-            </div>
-            <div class="form-group">
-                <label id="row-form-label" class="">№ строки:</label>
-                <input type="text" id="row-form-item" class="form-control short-form-item line-form-item" value="1"/>
-            </div>
-            <div class="form-group">
-                <label id="column-form-label" class="">№ столбца:</label>
-                <input type="text" id="column-form-item" class="form-control short-form-item line-form-item" value="1"/>
-            </div>
-            <button id="generate-report-btn" type="button" class="btn btn-outline-dark" disabled>
-                <i class="fas fa-bolt"></i>
-                Сгенерировать
-            </button>
-        </form>
+            </form>
         }
     </div>
 </div>
@@ -323,7 +290,6 @@
                 fileNameStatement = fileNameStatement.replace(";", "");
                 fileNameStatement = fileNameStatement.replace("\"", "");
 
-                
                 var blob = new Blob([response], { type: contentType });
                 var link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
