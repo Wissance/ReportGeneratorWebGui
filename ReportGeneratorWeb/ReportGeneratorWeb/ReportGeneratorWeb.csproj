@@ -36,10 +36,14 @@
     <Folder Include="public\" />
     <Folder Include="wwwroot\files\gen\" />
     <Folder Include="wwwroot\images\" />
+    <Folder Include="node_modules" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="wwwroot\**"
-      CopyToOutputDirectory="PreserveNewest" LinkBase="wwwroot\" />
+    <None Include="wwwroot\**" CopyToOutputDirectory="PreserveNewest" LinkBase="wwwroot\" />
+  </ItemGroup>
+  <!-- WE MUST COPY FONT AWESOME woff and other fonts file to wwwroot, otherwise there is problem with fonts loading ... -->
+  <ItemGroup>
+    <Content Include="node_modules\font-awesome-5-css\webfonts\**" CopyToOutputDirectory="PreserveNewest" LinkBase="wwwroot\webfonts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="appsettings.Development.json">

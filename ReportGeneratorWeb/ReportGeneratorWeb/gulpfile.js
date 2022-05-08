@@ -35,10 +35,10 @@ var nodeCss = [
 ];
 
 var nodeJs = [
+    // jquery (MUST BE BEFORE bootstrap!)
+    paths.nodeModules + "/jquery/dist/jquery.js",
     // bootstrap
     paths.nodeModules + "/bootstrap/dist/js/bootstrap.js",
-    // jquery
-    paths.nodeModules + "/jquery/dist/jquery.js",
     // report manager js
     paths.webroot + "/js/reportManager.js"
 ];
