@@ -30,6 +30,8 @@ namespace ReportGeneratorWeb
         {
             // 1. MVC
             services.AddMvc();
+            services.AddRazorPages();
+            services.AddControllersWithViews();
             services.AddControllers(options =>
             {
                 options.EnableEndpointRouting = false;
