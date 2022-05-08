@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -29,7 +30,10 @@ namespace ReportGeneratorWeb
         {
             // 1. MVC
             services.AddMvc();
-            services.AddControllers(options => options.EnableEndpointRouting = false);
+            services.AddControllers(options =>
+            {
+                options.EnableEndpointRouting = false;
+            });
             // 2. Logging
             services.AddLogging(loggingBuilder => loggingBuilder.AddConfiguration(Configuration).AddConsole());
             services.AddLogging(loggingBuilder => loggingBuilder.AddConfiguration(Configuration).AddDebug());
@@ -51,6 +55,11 @@ namespace ReportGeneratorWeb
                 app.UseExceptionHandler("/Error");
             }
 
+            //RewriteOptions options = new RewriteOptions();
+            //.AddRedirect("(.*[^/])$/", "$1");
+            //.AddRedirectToHttpsPermanent();
+            //app.UseRewriter(options);
+            app.UseRouting();
             app.UseStaticFiles();
             app.UseFileServer(new FileServerOptions()
             {
@@ -59,10 +68,7 @@ namespace ReportGeneratorWeb
                 EnableDirectoryBrowsing = false
             });
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(name: "default", template: "{controller}/{action=Index}/{id?}");
-            });
+            app.UseMvc();
         }
 
         public IConfiguration Configuration { get; }
