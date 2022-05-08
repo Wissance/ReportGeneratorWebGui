@@ -57,17 +57,28 @@ namespace ReportGeneratorWeb
                 app.UseExceptionHandler("/Error");
             }
 
+            app.UseRouting();
+            app.UseStaticFiles();
+
+            if (env.IsDevelopment())
+            {
+                const string nodeModulesUrlPath = "node_modules";
+                PhysicalFileProvider nodeModulesProvider = new PhysicalFileProvider(Path.Combine(Path.Combine(env.ContentRootPath, nodeModulesUrlPath)));
+                app.UseStaticFiles(new StaticFileOptions
+                {
+                    FileProvider = nodeModulesProvider,
+                    RequestPath = $"/{nodeModulesUrlPath}"
+                });
+                /*app.UseDirectoryBrowser(new DirectoryBrowserOptions
+                {
+                    FileProvider = nodeModulesProvider,
+                    RequestPath = nodeModulesUrlPath
+                });*/
+            }
+
             RewriteOptions options = new RewriteOptions().AddRedirect("(.*[^/])$", "$1/");
             //.AddRedirectToHttpsPermanent();
             app.UseRewriter(options);
-            app.UseRouting();
-            app.UseStaticFiles();
-            app.UseFileServer(new FileServerOptions()
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "node_modules")),
-                RequestPath = "/node_modules",
-                EnableDirectoryBrowsing = false
-            });
 
             app.UseMvc();
         }
