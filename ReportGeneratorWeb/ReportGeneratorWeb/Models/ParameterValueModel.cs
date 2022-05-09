@@ -19,7 +19,7 @@ namespace ReportGeneratorWeb.Models
         {
         }
 
-        public ParameterValueModel(ParameterType type, string name, object value)
+        public ParameterValueModel(ParameterType type, string name, string value)
         {
             Type = type;
             Name = name;
@@ -28,6 +28,6 @@ namespace ReportGeneratorWeb.Models
 
         public ParameterType Type { get; set; }
         public string Name { get; set; }
-        public object Value { get; set; }
+        public string Value { get; set; }
     }
 }

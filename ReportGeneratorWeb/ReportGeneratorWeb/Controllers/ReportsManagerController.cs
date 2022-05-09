@@ -52,7 +52,7 @@ namespace ReportGeneratorWeb.Controllers
             if (config.DataSource == ReportDataSource.StoredProcedure)
             {
                 IList<ParameterValueModel> data = config.StoredProcedureParameters.Select(p =>
-                    new ParameterValueModel(ParameterType.StoredProcedure, p.ParameterName, p.ParameterValue)).ToList();
+                    new ParameterValueModel(ParameterType.StoredProcedure, p.ParameterName, p.ParameterValue.ToString())).ToList();
                 model.Parameters = data;
                 model.IsStoredProcedure = true;
             }
