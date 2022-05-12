@@ -9,7 +9,7 @@
     <!-- SQL Server NVarChar enum value is 12-->
     <ParameterType>12</ParameterType> 
     <ParameterName>City</ParameterName>
-    <ParameterValue xsi:type="xsd:string">N'Yekaterinburg</ParameterValue>
+    <ParameterValue xsi:type="xsd:string">Yekaterinburg</ParameterValue>
   </StoredProcedureParameters>
   <StoredProcedureParameters>
     <!-- SQL Server Int enum value is 8-->
@@ -21,6 +21,6 @@
     <!-- SQL Server Date enum value is 4-->
     <ParameterType>4</ParameterType>
     <ParameterName>DateOfBirth</ParameterName>
-    <ParameterValue xsi:type="xsd:string">'2018-01-01'</ParameterValue>
+    <ParameterValue xsi:type="xsd:string">2018-01-01</ParameterValue>
   </StoredProcedureParameters>
 </ExecutionConfig>

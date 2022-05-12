@@ -106,9 +106,9 @@ namespace ReportGeneratorWeb.Controllers
             string parametersFile = Path.Combine(pathSearchConfig.ParametersFilesDirectory, generation.ParametersFile);
             ExecutionConfig config = CreateExecutionConfig(parametersFile, generation.Parameters);
 
-            bool result = await manager.GenerateAsync(Path.Combine(pathSearchConfig.TemplatesFilesDirectory, generation.TemplateFile), config, reportFile,
+            int result = await manager.GenerateAsync(Path.Combine(pathSearchConfig.TemplatesFilesDirectory, generation.TemplateFile), config, reportFile,
                                                       CreateOutputGenerationParameters(generation.OutputType, generation.OutputFileOptions));
-            if (result)
+            if (result > 0)
             {
                 byte[] bytes = await System.IO.File.ReadAllBytesAsync(reportFile);
                 string reportExtension = _reportTypes[generation.OutputType];
@@ -120,7 +120,7 @@ namespace ReportGeneratorWeb.Controllers
                 Response.Headers.Add("Content-Disposition", content.ToString());
                 return File(bytes, _expectedMimeTypes[reportExtension], Path.GetFileName(reportFile));
             }
-            return null;
+            return Ok();
         }
 
         private async Task<FileContentResult> GetFileAsync(string fileName, string searchPath)

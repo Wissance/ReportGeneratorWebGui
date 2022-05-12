@@ -10,7 +10,7 @@
     <!-- Postgres VarChar - 22-->
     <ParameterType>22</ParameterType>
     <ParameterName>CityName</ParameterName>
-    <ParameterValue xsi:type="xsd:string">'Yekaterinburg'</ParameterValue>
+    <ParameterValue xsi:type="xsd:string">Yekaterinburg</ParameterValue>
   </StoredProcedureParameters>
   <!-- Postgres Integer enum value is 9-->
   <!--
