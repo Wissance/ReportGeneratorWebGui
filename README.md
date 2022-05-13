@@ -1,4 +1,5 @@
 # ReportGeneratorWebGui
+## 1. Description
 Web application for reports (data from stored procedure or view with parameters) generation using ReportGenerator library.
 Reports could be generated in following formats using template files:
 * Excel
@@ -14,6 +15,15 @@ If you would like to add you own reports add them to appropriate subfolder in ww
 1. Web api that allow to call report generation from any client
 2. Client GUI that allows to generate reports using built in GUI
 3. Report could be executed using any database (Sql Server, MySql or Postgres) on any server that accessible from machine where ReportGeneratorWebGui is deployed
+
+## 2. Build
+
+Backend builds very simple, we don't need any specific actions
+Frontend build have one pecularity - manual copy webfonts from `node_modules\font-awesome-5-css\webfonts\` to `wwwroot\webfonts`
+
+To full frontend rebuild (if there were made significant changes):
+* npm i
+* gulp build
 
 Screnshoots of how it looks:
 
