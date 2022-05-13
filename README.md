@@ -35,11 +35,11 @@ Ensure that you have database with data and/or stored procedures or views
 
 1. Choose ExecutionConfig and Template file:
 
-![Choose params ant template file](https://github.com/EvilLord666/ReportGeneratorWebGui/blob/master/img/list-of-files.png)
+![Choose execution config and template files](https://github.com/Wissance/ReportGeneratorWebGui/blob/master/docs/mainpage.png)
 
 2. Set parameters otherwise they will be empty
 
-![Set params values](https://github.com/EvilLord666/ReportGeneratorWebGui/blob/master/img/set-params.png)
+![Set params values](https://github.com/Wissance/ReportGeneratorWebGui/blob/master/docs/paramsset.png)
 
 3. Click OK. In previous View properly set:
 
