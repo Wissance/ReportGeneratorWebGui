@@ -1,7 +1,19 @@
 # ReportGeneratorWebGui
-ASP NET Core MVC Web GUI (Net core) for easy reports generation  using ReportGenerator library. ReportsGenerator is a fast way to 
-select data using database tools (stored procedures and views). It interface now localized only for Ru language, but i am planning to add  
-support for En too. By default i copied all params file (.xml) and one template to wwwroot (just for demo purposes).
+Web application for reports (data from stored procedure or view with parameters) generation using ReportGenerator library.
+Reports could be generated in following formats using template files:
+* Excel
+* Csv
+
+To generate report we need just 2 things:
+* Execution config - .xml file that describes stored procedure / view and it parameters
+* Template file - a csv or xlsx file
+
+If you would like to add you own reports add them to appropriate subfolder in wwwroot/files
+
+**Key features** are:
+1. Web api that allow to call report generation from any client
+2. Client GUI that allows to generate reports using built in GUI
+3. Report could be executed using any database (Sql Server, MySql or Postgres) on any server that accessible from machine where ReportGeneratorWebGui is deployed
 
 Screnshoots of how it looks:
 
@@ -10,7 +22,6 @@ Screnshoots of how it looks:
 ![Choose params ant template file](https://github.com/EvilLord666/ReportGeneratorWebGui/blob/master/img/list-of-files.png)
 
 2. Run parameters set or not
-
 
 ![Set params values](https://github.com/EvilLord666/ReportGeneratorWebGui/blob/master/img/set-params.png)
 
