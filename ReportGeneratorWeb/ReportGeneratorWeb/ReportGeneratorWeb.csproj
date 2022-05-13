@@ -39,7 +39,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\**" CopyToOutputDirectory="PreserveNewest" LinkBase="wwwroot\" />
-    <None Include="node_modules\font-awesome-5-css\webfonts\**" CopyToOutputDirectory="Always" LinkBase="wwwroot\webfonts\" />
+    <!--<Content Include="node_modules\font-awesome-5-css\webfonts\**" CopyToOutputDirectory="Always" LinkBase="wwwroot\webfonts\" />-->
+  </ItemGroup>
+  <ItemGroup>
+	  <None Include="node_modules\font-awesome-5-css\webfonts\**" CopyToOutputDirectory="Always" LinkBase="wwwroot\webfonts\" />
   </ItemGroup>
   <!-- WE MUST COPY FONT AWESOME woff and other fonts file to wwwroot, otherwise there is problem with fonts loading ... -->
   <!--
@@ -48,10 +51,10 @@
   </ItemGroup>
   -->
   <ItemGroup>
-    <Content Update="appsettings.Development.json">
+    <Content Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="appsettings.json">
+    <Content Update="appsettings.Development.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="appsettings.Productuon.json">
