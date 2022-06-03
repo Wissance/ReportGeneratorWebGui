@@ -119,7 +119,7 @@ namespace ReportGeneratorWeb.Controllers
             int result = await manager.GenerateAsync(Path.Combine(pathSearchConfig.TemplatesFilesDirectory, generation.TemplateFile), config, reportFile,
                                                       CreateOutputGenerationParameters(generation.OutputType, generation.OutputFileOptions));
             watch.Stop();
-            _logger.LogDebug($"Генерация отчета \"{config.DisplayName}\" завершена, отчет состоит из {result} строк, прошло {watch.Elapsed} секунд");
+            _logger.LogDebug($"Генерация отчета \"{config.Name}\" завершена, отчет состоит из {result} строк, прошло {watch.Elapsed} секунд");
             if (result > 0)
             {
                 _logger.LogInformation($"Отчет был успешно сгенерирован");
