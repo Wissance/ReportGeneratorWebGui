@@ -33,7 +33,6 @@
   </ItemGroup>
   <!-- Do not undestand what it is for ??? --> 
   <ItemGroup>
-    <Folder Include="public\" />
     <Folder Include="wwwroot\files\gen\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>

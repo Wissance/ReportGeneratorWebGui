@@ -69,11 +69,6 @@ namespace ReportGeneratorWeb
                     FileProvider = nodeModulesProvider,
                     RequestPath = $"/{nodeModulesUrlPath}"
                 });
-                /*app.UseDirectoryBrowser(new DirectoryBrowserOptions
-                {
-                    FileProvider = nodeModulesProvider,
-                    RequestPath = nodeModulesUrlPath
-                });*/
             }
 
             RewriteOptions options = new RewriteOptions().AddRedirect("(.*[^/])$", "$1/");

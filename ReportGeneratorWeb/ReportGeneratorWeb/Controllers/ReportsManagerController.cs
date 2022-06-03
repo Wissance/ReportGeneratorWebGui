@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Mime;
@@ -9,6 +9,7 @@ using DbTools.Core;
 using Microsoft.AspNetCore.Mvc;
 using ReportGeneratorWeb.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using ReportGenerator.Core.Config;
 using ReportGenerator.Core.Data.Parameters;
@@ -31,6 +32,7 @@ namespace ReportGeneratorWeb.Controllers
         public ReportsManagerController(ILoggerFactory loggerFactory, IHostingEnvironment environment)
         {
             _loggerFactory = loggerFactory;
+            _logger = _loggerFactory.CreateLogger<ReportsManagerController>();
             _environment = environment;
         }
 
@@ -105,11 +107,22 @@ namespace ReportGeneratorWeb.Controllers
             string reportFile = GetReportFilePath("Report", Guid.NewGuid(), generation.OutputType);
             string parametersFile = Path.Combine(pathSearchConfig.ParametersFilesDirectory, generation.ParametersFile);
             ExecutionConfig config = CreateExecutionConfig(parametersFile, generation.Parameters);
-
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            _logger.LogDebug($"Запущена генерация отчета \"{config.DisplayName}\"");
+            _logger.LogDebug("Параметры генерации отчета: ");
+            foreach (ParameterValueModel parameter in generation.Parameters)
+            {
+                _logger.LogDebug($"Параметр: \"{parameter.Name}\", Значение: \"{parameter.Value}\"");
+            }
+            
             int result = await manager.GenerateAsync(Path.Combine(pathSearchConfig.TemplatesFilesDirectory, generation.TemplateFile), config, reportFile,
                                                       CreateOutputGenerationParameters(generation.OutputType, generation.OutputFileOptions));
+            watch.Stop();
+            _logger.LogDebug($"Генерация отчета \"{config.DisplayName}\" завершена, отчет состоит из {result} строк, прошло {watch.Elapsed} секунд");
             if (result > 0)
             {
+                _logger.LogInformation($"Отчет был успешно сгенерирован");
                 byte[] bytes = await System.IO.File.ReadAllBytesAsync(reportFile);
                 string reportExtension = _reportTypes[generation.OutputType];
                 ContentDisposition content = new ContentDisposition()
@@ -120,7 +133,8 @@ namespace ReportGeneratorWeb.Controllers
                 Response.Headers.Add("Content-Disposition", content.ToString());
                 return File(bytes, _expectedMimeTypes[reportExtension], Path.GetFileName(reportFile));
             }
-            return Ok();
+            _logger.LogError($"Произошла ошибка при генерации отчета, см. внутренние исключения ReportGenerator");
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
         private async Task<FileContentResult> GetFileAsync(string fileName, string searchPath)
@@ -248,6 +262,7 @@ namespace ReportGeneratorWeb.Controllers
 
         private readonly IHostingEnvironment _environment;
         private readonly ILoggerFactory _loggerFactory;
+        private readonly ILogger<ReportsManagerController> _logger;
 
         private readonly IDictionary<OutputReportType, string> _reportTypes = new Dictionary<OutputReportType, string>()
         {
