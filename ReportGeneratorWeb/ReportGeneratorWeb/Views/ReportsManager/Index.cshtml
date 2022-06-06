@@ -298,8 +298,14 @@
                 URL.revokeObjectURL(link.href);
             },
             error: function (response, textStatus, request) {
-                console.log("repor generation failed");
-                $.notify("konec pizdec");
+                console.log("report generation failed");
+                //var errNotification = $.notify("konec pizdec");
+                //errNotification.update({ type: "error" });
+                $.notify("Ошибка генерации отчета (репорта)!",
+                {
+                    timer: 2000,
+                    type: "warning"
+                });
             }
         });
     });
