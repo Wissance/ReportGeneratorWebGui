@@ -29,17 +29,9 @@ namespace ReportGeneratorWeb
         public void ConfigureServices(IServiceCollection services)
         {
             // 1. MVC
-            services.AddMvc();
-            services.AddRazorPages();
-            services.AddControllersWithViews();
-            services.AddControllers(options =>
-            {
-                options.EnableEndpointRouting = false;
-            });
+            ConfigureWeb(services);
             // 2. Logging
-            services.AddLogging(loggingBuilder => loggingBuilder.AddConfiguration(Configuration).AddConsole());
-            services.AddLogging(loggingBuilder => loggingBuilder.AddConfiguration(Configuration).AddDebug());
-            services.AddLogging(loggingBuilder => loggingBuilder.AddConfiguration(Configuration).AddSerilog(dispose: true));
+            ConfigureLogging(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,6 +68,25 @@ namespace ReportGeneratorWeb
             app.UseRewriter(options);
 
             app.UseMvc();
+        }
+
+        private void ConfigureWeb(IServiceCollection services)
+        {
+            services.AddMvc();
+            services.AddRazorPages();
+            services.AddControllersWithViews();
+            services.AddControllers(options =>
+            {
+                options.EnableEndpointRouting = false;
+            });
+        }
+
+        private void ConfigureLogging(IServiceCollection services)
+        {
+            Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration).CreateLogger();
+            services.AddLogging(loggingBuilder => loggingBuilder.AddConfiguration(Configuration).AddConsole());
+            services.AddLogging(loggingBuilder => loggingBuilder.AddConfiguration(Configuration).AddDebug());
+            services.AddLogging(loggingBuilder => loggingBuilder.AddConfiguration(Configuration).AddSerilog(dispose: true));
         }
 
         public IConfiguration Configuration { get; }
