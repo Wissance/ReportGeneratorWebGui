@@ -279,6 +279,11 @@
             data: bodyJson,
             success: function (response, textStatus, request) {
                 console.log("received response (successful report generation), downloading ...");
+                $.notify("Отчет был успешно сгенерирован!",
+                    {
+                        timer: 1000,
+                        type: "success"
+                    });
                 // var respHeaders = request.getAllResponseHeaders();
                 var contentType = request.getResponseHeader("content-type");
                 var contentDisposition = request.getResponseHeader("content-disposition");
@@ -301,7 +306,7 @@
                 console.log("report generation failed");
                 $.notify("Ошибка генерации отчета (репорта)!",
                 {
-                    timer: 2000,
+                    timer: 1000,
                     type: "warning"
                 });
             }
