@@ -39,6 +39,8 @@ var nodeJs = [
     paths.nodeModules + "/jquery/dist/jquery.js",
     // bootstrap
     paths.nodeModules + "/bootstrap/dist/js/bootstrap.js",
+    // notifyjs
+    paths.nodeModules + "/bootstrap-notify/bootstrap-notify.js",
     // report manager js
     paths.webroot + "/js/reportManager.js"
 ];

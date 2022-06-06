@@ -278,7 +278,7 @@
             processData: false,
             data: bodyJson,
             success: function (response, textStatus, request) {
-                console.log("received response, downloading ...");
+                console.log("received response (successful report generation), downloading ...");
                 // var respHeaders = request.getAllResponseHeaders();
                 var contentType = request.getResponseHeader("content-type");
                 var contentDisposition = request.getResponseHeader("content-disposition");
@@ -296,6 +296,11 @@
                 link.download = fileNameStatement;
                 link.click();
                 URL.revokeObjectURL(link.href);
-            }});
+            },
+            error: function (response, textStatus, request) {
+                console.log("repor generation failed");
+                $.notify("konec pizdec");
+            }
+        });
     });
 </script>

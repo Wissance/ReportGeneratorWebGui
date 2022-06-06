@@ -2,32 +2,33 @@
 @inject Microsoft.AspNetCore.Hosting.IHostingEnvironment HostingEnv
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width" />
-        <!-- Make conditional import -->
-        <title>@ViewBag.Title</title>
-        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-        @if (HostingEnv.IsDevelopment())
-        {
-            <!-- Library stylesheets -->
-            <link rel="stylesheet" href="~/node_modules/bootstrap/dist/css/bootstrap.css">
-            <link rel="stylesheet" href="~/node_modules/font-awesome-5-css/css/all.css">
-            <!-- Application stylesheets -->
-            <link rel="stylesheet" href="~/css/reports_manager.css">
-            <!-- Library scripts -->
-            <script type="text/javascript" src="~/node_modules/jquery/dist/jquery.js"></script>
-            <script type="text/javascript" src="~/node_modules/bootstrap/dist/js/bootstrap.js"></script>
-            <!-- Application script -->
-            <script type="text/javascript" src="~/js/reportManager.js"></script>
-        }
-        else
-        {
-            <!-- Generated minified files -->
-            <link rel="stylesheet" href="~/css/app.min.css">
-            <script type="text/javascript" src="~/js/app.min.js"></script>
-        }
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <!-- Make conditional import -->
+    <title>@ViewBag.Title</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    @if (HostingEnv.IsDevelopment())
+    {
+        <!-- Library stylesheets -->
+        <link rel="stylesheet" href="~/node_modules/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheet" href="~/node_modules/font-awesome-5-css/css/all.css">
+        <!-- Application stylesheets -->
+        <link rel="stylesheet" href="~/css/reports_manager.css">
+        <!-- Library scripts -->
+        <script type="text/javascript" src="~/node_modules/jquery/dist/jquery.js"></script>
+        <script type="text/javascript" src="~/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+        <script type="text/javascript" src="~/node_modules/bootstrap-notify/bootstrap-notify.js"></script>
+        <!-- Application script -->
+        <script type="text/javascript" src="~/js/reportManager.js"></script>
+    }
+    else
+    {
+        <!-- Generated minified files -->
+        <link rel="stylesheet" href="~/css/app.min.css">
+        <script type="text/javascript" src="~/js/app.min.js"></script>
+    }
 
-    </head>
+</head>
     <body>
         <div>
             @RenderBody()
